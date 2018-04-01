@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using WebTest.Authentification;
+using WebTest.Data;
 
 namespace WebTest.Configuration
 {
@@ -10,7 +11,7 @@ namespace WebTest.Configuration
         public static void Configure(IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<SecurityDbContext>()
                 .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
@@ -39,10 +40,10 @@ namespace WebTest.Configuration
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(100);
                 // If the LoginPath isn't set, ASP.NET Core defaults 
                 // the path to /Account/Login.
-                options.LoginPath = "api/account/login";
+                options.LoginPath = "/api/account/login";
                 // If the AccessDeniedPath isn't set, ASP.NET Core defaults 
                 // the path to /Account/AccessDenied.
-                options.AccessDeniedPath = "api/account/access-denied";
+                options.AccessDeniedPath = "/api/account/access-denied";
                 options.SlidingExpiration = true;
             });
         }

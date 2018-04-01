@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebTest.Authentification;
 using WebTest.Configuration;
-using WebTest.Database;
+using WebTest.Data;
 
 namespace WebTest
 {
@@ -21,11 +21,11 @@ namespace WebTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WebTestDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DataConnection")));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<SecurityDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("SecurityConnection")));
 
             //configure authentification
             AuthentificationConfigurator.Configure(services);
@@ -40,8 +40,13 @@ namespace WebTest
         {
             if (env.IsDevelopment())
             {
+                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }
