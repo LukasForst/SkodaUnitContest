@@ -4,6 +4,7 @@ using log4net;
 using Microsoft.AspNetCore.Identity;
 using WebTest.Authentification;
 using WebTest.Dto;
+using WebTest.Dto.Authentification;
 
 namespace WebTest.Providers
 {

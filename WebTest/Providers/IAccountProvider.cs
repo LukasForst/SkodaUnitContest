@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using WebTest.Dto;
+using WebTest.Dto.Authentification;
 
 namespace WebTest.Providers
 {

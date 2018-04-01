@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebTest.Dto;
+using WebTest.Dto.Authentification;
 using WebTest.Providers;
 
 namespace WebTest.Controllers
 {
+    [Route("api/account")]
     public class AccountController : Controller
     {
         private readonly IAccountProvider accountProvider;
@@ -18,22 +20,29 @@ namespace WebTest.Controllers
             this.accountProvider = accountProvider;
         }
 
-        [HttpGet]
+        [HttpPost("register")]
         [AllowAnonymous]
-        public Tuple<bool, AccountDto> Register(AccountCreationDto dto)
+        public Tuple<bool, AccountDto> Register([FromBody] AccountCreationDto dto)
         {
             return accountProvider.Register(dto);
         }
 
 
-        [HttpGet]
+        [HttpPost("login")]
         [AllowAnonymous]
-        public IActionResult Login(AccountLogin accountLogin, string returnUrl = null)
+        public IActionResult Login([FromBody] AccountLogin accountLogin, string returnUrl = null)
         {
             // Clear the existing external cookie to ensure a clean login process
             HttpContext.SignOutAsync(IdentityConstants.ExternalScheme).Wait();
 
             return accountProvider.Login(accountLogin) ? Ok() : (IActionResult) Unauthorized();
+        }
+
+        [HttpGet("access-denied")]
+        [AllowAnonymous]
+        public IActionResult AccessDenied(string returnUrl = null)
+        {
+            return Ok("Access denied!");
         }
     }
 }
