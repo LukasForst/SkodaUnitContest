@@ -1,4 +1,4 @@
-﻿namespace WebTest.Dto
+﻿namespace WebTest.Dto.Authentification
 {
     public class AccountLogin
     {

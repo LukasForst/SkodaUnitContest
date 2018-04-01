@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebTest.Authentification;
 
-namespace WebTest.Data
+namespace WebTest.Authentification
 {
     public class SecurityDbContext : IdentityDbContext<ApplicationUser>
     {

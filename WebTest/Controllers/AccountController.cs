@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -43,6 +44,14 @@ namespace WebTest.Controllers
         public IActionResult AccessDenied(string returnUrl = null)
         {
             return Ok("Access denied!");
+        }
+
+        [HttpGet("test")]
+        [Authorize]
+        public string SayHello()
+        {
+            
+            return $"Hello boy! You have access.\nYou are: {User.FindFirst(ClaimTypes.NameIdentifier).Value}";
         }
     }
 }

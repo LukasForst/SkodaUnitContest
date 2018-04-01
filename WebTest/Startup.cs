@@ -44,7 +44,8 @@ namespace WebTest
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            app.UseStaticFiles();
+            
+            app.UseFileServer();
 
             app.UseAuthentication();
 
