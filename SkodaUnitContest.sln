@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTest", "WebTest\WebTest.csproj", "{0CFEF72B-1622-4FA6-84E2-68ECDAAD10EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkodaUnitContest", "SkodaUnitContest\SkodaUnitContest.csproj", "{0CFEF72B-1622-4FA6-84E2-68ECDAAD10EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
