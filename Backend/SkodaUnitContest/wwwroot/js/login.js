@@ -15,7 +15,13 @@ var settings = {
 	"processData": false,
 	"data": "{\n\t\"UserName\": \"Borec\",\n\t\"Password\": \"helloboy\",\n\t\"RememberMe\": \"true\"\n}"
 }
+//
 
-$.ajax(settings).done(function (response) {
-	console.log(response);
-});
+
+function neco() {
+	console.log(settings);
+
+	$.ajax(settings).done(function (response) {
+		console.log(response);
+	});
+}
