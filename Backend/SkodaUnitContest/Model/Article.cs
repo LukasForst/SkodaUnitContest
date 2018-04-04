@@ -2,7 +2,7 @@
 
 namespace SkodaUnitWebApi.Model
 {
-    public class Arrticle
+    public class Article
     {
         public int Id { get; set; }
         public string Text { get; set; }

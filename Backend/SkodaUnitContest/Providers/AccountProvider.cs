@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using log4net;
 using Microsoft.AspNetCore.Identity;
 using SkodaUnitWebApi.Authentification;
@@ -47,5 +48,13 @@ namespace SkodaUnitWebApi.Providers
             Log.Info($"Login result for: {dto.UserName} - {result.Succeeded}");
             return result.Succeeded;
         }
+
+        public AccountDto GetUserInfo(ClaimsPrincipal claims)
+        {
+            var user = userManager.GetUserAsync(claims).Result;
+            Log.Info($"GetUserInfo for user {user.UserName}");
+            return new AccountDto{UserId = user.Id, Email = user.Email, UserName = user.UserName};
+        }
+        
     }
 }

@@ -44,12 +44,11 @@ namespace SkodaUnitWebApi.Controllers
             return Ok("Access denied!");
         }
 
-        [HttpGet("test")]
+        [HttpGet("user-info")]
         [Authorize]
-        public string SayHello()
+        public AccountDto GetUserInfo()
         {
-            
-            return $"Hello boy! You have access.\nYou are: {User.FindFirst(ClaimTypes.NameIdentifier).Value}";
+            return accountProvider.GetUserInfo(User);
         }
     }
 }

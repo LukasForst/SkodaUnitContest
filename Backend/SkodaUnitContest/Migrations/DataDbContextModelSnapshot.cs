@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using System;
 using SkodaUnitWebApi.Model;
+using System;
 
 namespace SkodaUnitWebApi.Migrations
 {
@@ -20,7 +20,7 @@ namespace SkodaUnitWebApi.Migrations
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SkodaUnitWebApi.Data.Arrticle", b =>
+            modelBuilder.Entity("SkodaUnitWebApi.Model.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -32,12 +32,12 @@ namespace SkodaUnitWebApi.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("SkodaUnitWebApi.Data.Image", b =>
+            modelBuilder.Entity("SkodaUnitWebApi.Model.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ArrticleId");
+                    b.Property<int?>("ArticleId");
 
                     b.Property<byte[]>("Data");
 
@@ -47,16 +47,16 @@ namespace SkodaUnitWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArrticleId");
+                    b.HasIndex("ArticleId");
 
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("SkodaUnitWebApi.Data.Image", b =>
+            modelBuilder.Entity("SkodaUnitWebApi.Model.Image", b =>
                 {
-                    b.HasOne("SkodaUnitWebApi.Data.Arrticle")
+                    b.HasOne("SkodaUnitWebApi.Model.Article")
                         .WithMany("Images")
-                        .HasForeignKey("ArrticleId");
+                        .HasForeignKey("ArticleId");
                 });
 #pragma warning restore 612, 618
         }

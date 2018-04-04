@@ -9,7 +9,7 @@ namespace SkodaUnitWebApi.Model
         }
 
         public DbSet<Image> Images { get; set; }
-        public DbSet<Arrticle> Articles { get; set; }
+        public DbSet<Article> Articles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

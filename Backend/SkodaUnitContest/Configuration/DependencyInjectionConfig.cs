@@ -8,6 +8,7 @@ namespace SkodaUnitWebApi.Configuration
         public static void Load(IServiceCollection services)
         {
             services.AddScoped<IAccountProvider, AccountProvider>();
+            services.AddScoped<IArticlesProvider, ArticlesProvider>();
         }
     }
 }
