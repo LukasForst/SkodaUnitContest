@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using WebTest.Authentification;
 
-namespace WebTest.Data.Migrations
+namespace SkodaUnitWebApi.Authentification.Migrations
 {
     [DbContext(typeof(SecurityDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

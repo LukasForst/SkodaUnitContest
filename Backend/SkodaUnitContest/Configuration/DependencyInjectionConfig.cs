@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using WebTest.Providers;
+using SkodaUnitWebApi.Providers;
 
-namespace WebTest.Configuration
+namespace SkodaUnitWebApi.Configuration
 {
     public static class DependencyInjectionConfig
     {

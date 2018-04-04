@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace WebTest
+namespace SkodaUnitWebApi
 {
     public class Program
     {

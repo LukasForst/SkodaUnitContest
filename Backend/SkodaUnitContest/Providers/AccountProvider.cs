@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using log4net;
 using Microsoft.AspNetCore.Identity;
-using WebTest.Authentification;
-using WebTest.Dto;
-using WebTest.Dto.Authentification;
+using SkodaUnitWebApi.Authentification;
+using SkodaUnitWebApi.Dto.Authentification;
 
-namespace WebTest.Providers
+namespace SkodaUnitWebApi.Providers
 {
     public class AccountProvider : IAccountProvider
     {

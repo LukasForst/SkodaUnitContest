@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using WebTest.Authentification;
 
-namespace WebTest.Data.Migrations
+namespace SkodaUnitWebApi.Authentification.Migrations
 {
     [DbContext(typeof(SecurityDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]

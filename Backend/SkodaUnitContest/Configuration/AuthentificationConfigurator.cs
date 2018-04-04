@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using WebTest.Authentification;
+using SkodaUnitWebApi.Authentification;
 
-namespace WebTest.Configuration
+namespace SkodaUnitWebApi.Configuration
 {
     public static class AuthentificationConfigurator
     {

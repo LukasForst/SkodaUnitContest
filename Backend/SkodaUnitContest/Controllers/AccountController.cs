@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebTest.Dto;
-using WebTest.Dto.Authentification;
-using WebTest.Providers;
+using SkodaUnitWebApi.Dto.Authentification;
+using SkodaUnitWebApi.Providers;
 
-namespace WebTest.Controllers
+namespace SkodaUnitWebApi.Controllers
 {
     [Route("api/account")]
     public class AccountController : Controller

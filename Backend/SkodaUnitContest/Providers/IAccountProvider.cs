@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
-using WebTest.Dto;
-using WebTest.Dto.Authentification;
+using SkodaUnitWebApi.Dto.Authentification;
 
-namespace WebTest.Providers
+namespace SkodaUnitWebApi.Providers
 {
     public interface IAccountProvider
     {

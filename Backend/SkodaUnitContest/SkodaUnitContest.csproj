@@ -6,7 +6,6 @@
     <RootNamespace>SkodaUnitWebApi</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Database" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>

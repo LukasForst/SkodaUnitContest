@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebTest.Authentification;
-using WebTest.Configuration;
-using WebTest.Data;
+using SkodaUnitWebApi.Authentification;
+using SkodaUnitWebApi.Configuration;
+using SkodaUnitWebApi.Model;
 
-namespace WebTest
+namespace SkodaUnitWebApi
 {
     public class Startup
     {

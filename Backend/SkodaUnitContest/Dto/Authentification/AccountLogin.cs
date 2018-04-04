@@ -1,4 +1,4 @@
-﻿namespace WebTest.Dto.Authentification
+﻿namespace SkodaUnitWebApi.Dto.Authentification
 {
     public class AccountLogin
     {

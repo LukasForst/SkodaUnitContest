@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebTest.Authentification
+namespace SkodaUnitWebApi.Authentification
 {
     public class SecurityDbContext : IdentityDbContext<ApplicationUser>
     {
