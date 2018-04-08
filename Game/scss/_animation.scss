@@ -1,0 +1,41 @@
+
+// Sky
+@-webkit-keyframes animSky {
+	0% { background-position: 0 100%; }
+	100% { background-position: -275px 100%; }
+}
+@-moz-keyframes animSky {
+	0% { background-position: 0 100%; }
+	100% { background-position: -275px 100%; }
+}
+@-o-keyframes animSky {
+	0% { background-position: 0 100%; }
+	100% { background-position: -275px 100%; }
+}
+@keyframes animSky {
+	0% { background-position: 0 100%; }
+	100% { background-position: -275px 100%; }
+}
+
+// Pipes
+@-webkit-keyframes animPipe {
+	0% { left: 900px; }
+	100% { left: -100px; }
+}
+@-moz-keyframes animPipe {
+	0% { left: 900px; }
+	100% { left: -100px; }
+}
+@-o-keyframes animPipe {
+	0% { left: 900px; }
+	100% { left: -100px; }
+}
+@keyframes animPipe {
+	0% { left: 900px; }
+	100% { left: -100px; }
+}
+
+.animated.stopped {
+	animation-play-state: paused;
+	-webkit-animation-play-state: paused;
+}

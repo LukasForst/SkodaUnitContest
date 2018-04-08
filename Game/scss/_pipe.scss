@@ -1,0 +1,46 @@
+.pipe {
+	position: absolute;
+	left: -100px;
+	width: 52px;
+	height: 100%;
+	z-index: 10;
+
+	-webkit-animation: animPipe 7500ms linear;
+	animation: animPipe 7500ms linear;
+
+	&_upper {
+		position: absolute;
+		top: 0;
+		width: 52px;
+		background-image: url('../../img/pipe.png');
+		background-repeat: repeat-y;
+		background-position: center;
+
+		&:after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			width: 52px;
+			height: 26px;
+			background-image: url('../../img/pipe-down.png');
+		}
+	}
+
+	&_lower {
+		position: absolute;
+		bottom: 0;
+		width: 52px;
+		background-image: url('../../img/pipe.png');
+		background-repeat: repeat-y;
+		background-position: center;
+
+		&:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			width: 52px;
+			height: 26px;
+			background-image: url('../../img/pipe-up.png');
+		}
+	}
+}
