@@ -5,6 +5,10 @@ var _Game = require('./modules/Game');
 
 var _Game2 = _interopRequireDefault(_Game);
 
+var _Cutting = require('./modules/Cutting');
+
+var _Cutting2 = _interopRequireDefault(_Cutting);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,6 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
         new _Game2.default();
     }
 
+    if ($('.stage1__plech').length) {
+        new _Cutting2.default();
+        console.log('tu');
+    }
     // Stage 3: changing colors
 
     var auto = $('.stage3__auto'),
@@ -413,7 +421,7 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./GameStageHandler":4,"./Pipes":5,"./Player":6,"./Savingpoints":8}],4:[function(require,module,exports){
+},{"./GameStageHandler":4,"./Pipes":5,"./Player":6,"./Savingpoints":8,"./StageDialogHandler":9}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -612,7 +620,7 @@ var GameStageHandler = function () {
 
 exports.default = GameStageHandler;
 
-},{"./PressShop":6,"./WeldingShop":8}],4:[function(require,module,exports){
+},{"./PressShop":7,"./StageDialogHandler":9,"./WeldingShop":10}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -761,7 +769,6 @@ var PressShop = function () {
                 _this.showSkoddyScene();
             }).bind(this);
             // here goes change to next stage
-
         }
     }, {
         key: "showSkoddyScene",
@@ -873,7 +880,7 @@ var StageDialogHandler = function () {
 
 exports.default = StageDialogHandler;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

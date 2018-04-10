@@ -34,8 +34,6 @@ export default class PressShop {
         }).bind(this);
         // here goes change to next stage
 
-
-
     }
 
     showSkoddyScene(){
