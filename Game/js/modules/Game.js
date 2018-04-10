@@ -207,6 +207,7 @@ export default class Game {
     savePointReached() {
         console.log("saving point reached");
         $(".animated").addClass('stopped');  // Stop moving of currently existing elements
+        this.removeClickableJump(); //Stop skoddy from jumping
         this.stopInvervals();   // Stop creating of new elements
         this.gameStages.nextStage(this); //this will call next stage
     }
@@ -215,6 +216,8 @@ export default class Game {
         console.log("Leaving saving point.");
         // Let already created elements move again
         $(".stopped").removeClass('stopped');
+
+        this.addClickableJump(); //make skoddy jump again
 
         // We need to keep the flow of the game (creating new elements :D )
         this.gameStages.leavingStage();

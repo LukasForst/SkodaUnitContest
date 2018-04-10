@@ -4,8 +4,6 @@ export default class WeldingShop {
     constructor(gameInstance){
         this.gameInstance = gameInstance;
 
-        //Stop skoddy from jumping
-        gameInstance.removeClickableJump();
 
         // Hid the Skoddy scene
         $(".main_game").addClass('hidden');
@@ -25,7 +23,6 @@ export default class WeldingShop {
     }
 
     showSkoddyScene(){
-        this.gameInstance.addClickableJump();
         $(".welding_machine").addClass('hidden');
         $(".main_game").removeClass('hidden');
 

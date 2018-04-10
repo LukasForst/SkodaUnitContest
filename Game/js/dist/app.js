@@ -282,6 +282,7 @@ var Game = function () {
         value: function savePointReached() {
             console.log("saving point reached");
             $(".animated").addClass('stopped'); // Stop moving of currently existing elements
+            this.removeClickableJump(); //Stop skoddy from jumping
             this.stopInvervals(); // Stop creating of new elements
             this.gameStages.nextStage(this); //this will call next stage
         }
@@ -291,6 +292,8 @@ var Game = function () {
             console.log("Leaving saving point.");
             // Let already created elements move again
             $(".stopped").removeClass('stopped');
+
+            this.addClickableJump(); //make skoddy jump again
 
             // We need to keep the flow of the game (creating new elements :D )
             this.gameStages.leavingStage();
@@ -476,7 +479,6 @@ var GameStageHandler = function () {
             switch (gameStage) {
                 case this.GameStages.PRESSSHOP:
                     new _PressShop2.default(gameInstance).start();
-                    gameInstance.savePointLeaving();
                     break;
                 case this.GameStages.WELDINGSHOP:
                     new _WeldingShop2.default(gameInstance).start();
@@ -624,9 +626,6 @@ var PressShop = function () {
 
         this.gameInstance = gameInstance;
 
-        //Stop skoddy from jumping
-        gameInstance.removeClickableJump();
-
         // Hid the Skoddy scene
         $(".main_game").addClass('hidden');
 
@@ -648,7 +647,6 @@ var PressShop = function () {
     }, {
         key: "showSkoddyScene",
         value: function showSkoddyScene() {
-            this.gameInstance.addClickableJump();
             $(".press_shop").addClass('hidden');
             $(".main_game").removeClass('hidden');
 
@@ -729,9 +727,6 @@ var WeldingShop = function () {
 
         this.gameInstance = gameInstance;
 
-        //Stop skoddy from jumping
-        gameInstance.removeClickableJump();
-
         // Hid the Skoddy scene
         $(".main_game").addClass('hidden');
 
@@ -752,7 +747,6 @@ var WeldingShop = function () {
     }, {
         key: "showSkoddyScene",
         value: function showSkoddyScene() {
-            this.gameInstance.addClickableJump();
             $(".welding_machine").addClass('hidden');
             $(".main_game").removeClass('hidden');
 

@@ -99,7 +99,6 @@ export default class GameStageHandler {
         switch (gameStage) {
             case this.GameStages.PRESSSHOP:
                 new PressShop(gameInstance).start();
-                gameInstance.savePointLeaving();
                 break;
             case this.GameStages.WELDINGSHOP:
                 new WeldingShop(gameInstance).start();
