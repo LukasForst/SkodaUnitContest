@@ -29,8 +29,8 @@ export default class Game {
 
         // handle touch start
         // todo: zkontrolovat na mobilu
-        if ("ontouchstart" in window)
-            $(document).on("touchstart", this.activityHandler());
+        // if ("ontouchstart" in window)
+        //     $(document).on("touchstart", this.activityHandler());
     }
 
     activityHandler() {
@@ -50,9 +50,10 @@ export default class Game {
                 break;
             case Mode.DEAD:
                 // hid the player and then run from default position
-                this.player.el.fadeOut(() => {
-                    this.runGame();
-                });
+                // this.player.el.fadeOut(() => {
+                //     this.runGame();
+                // });
+                this.runGame();
                 break;
             default:
                 return;
@@ -65,17 +66,12 @@ export default class Game {
         this.player.speed = 0;
         this.player.top = 180;
         this.player.rotation = 0;
-        this.player.el.css({'transform': 'none)'});
+        this.player.el.css({'transform': 'none'});
         this.player.update();
 
         // clear out all the pipes if there are any
         $(".pipe").remove();
         this.pipes.array = [];
-
-        // show on default position if was hidden
-        if (this.mode === Mode.RETRY || this.mode === Mode.DEAD) {
-            this.player.el.fadeIn();
-        }
 
         // run the game
         this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
