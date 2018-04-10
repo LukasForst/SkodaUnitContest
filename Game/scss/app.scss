@@ -6,7 +6,8 @@ $color2:	blue;
 @import 'player';
 @import 'pipe';
 @import 'savingpoint';
-
+@import "gameStages";
+@import "buttons";
 @import "auto";
 @import "stage1";
 @import "stage2";
