@@ -1,0 +1,16 @@
+.stage3, .stage2 {
+
+	&__auto {
+
+		background: none;
+		-webkit-background-size: contain !important;
+		background-size: contain !important;
+
+		width: 848px;
+		height: 300px;
+
+		margin: 0 auto 80px;
+
+		-webkit-transition: background .5s ease;
+	}
+}
