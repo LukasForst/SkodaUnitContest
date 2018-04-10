@@ -1,17 +1,76 @@
 .stage1 {
 
+	text-align: center;
+
 	&__plech {
 		width: 80%;
 		height: 60%;
 
-		background: grey;
+		background: #bcbcbc;
 		border: 1px solid darkgrey;
 
-		margin: auto;
+		margin: 0 auto 60px;
 
 		-webkit-box-shadow: 0px 0px 12px 1px rgba(0,0,0,0.75);
 		-moz-box-shadow: 0px 0px 12px 1px rgba(0,0,0,0.75);
 		box-shadow: 0px 0px 12px 1px rgba(0,0,0,0.75);
 
+		& .door-line {
+			width: 50%;
+			margin: auto;
+			height: 50%;
+			background: url('../../img/auto/press/door-line.png') no-repeat;
+			background-size: contain;
+			background-position: 50%;
+
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+
+			opacity: .5;
+
+			&:hover {
+				opacity: 1;
+				cursor: pointer;
+			}
+		}
+
+		&.cut {
+			background: url('../../img/auto/press/plech-cut.png') no-repeat;
+			background-size: cover;
+			background-position: 50%;
+		}
+
+	}
+
+	.door-cut {
+		background: url('../../img/auto/press/door-cut.png') no-repeat;
+		background-size: contain !important;
+		background-position: 50% !important;
+		width: 60%;
+		height: 300px;
+		margin: auto;
+
+		&.pressed {
+			background: url('../../img/auto/press/door-3d.png') no-repeat;
+		}
+
+	}
+
+	a {
+		background: green;
+		color: white;
+		padding: 20px 40px;
+		display: inline-block;
+		text-decoration: none;
+
+		&:hover {
+			background: darken(green, 10%);
+			text-decoration: none;
+		}
+
+		&#performPress {
+			display: none;
+		}
 	}
 }
