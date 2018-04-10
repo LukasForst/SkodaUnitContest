@@ -35,6 +35,7 @@ export default class PressShop {
 
     }
 
+
     showSkoddyScene(){
         $(".press_shop").addClass('hidden');
         $(".main_game").removeClass('hidden');
