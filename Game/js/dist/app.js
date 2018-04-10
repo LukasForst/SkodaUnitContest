@@ -297,13 +297,17 @@ var Game = function () {
         key: "savePointLeaving",
         value: function savePointLeaving() {
             console.log("Leaving saving point.");
+            this.gameStages.leavingStage(this);
+        }
+    }, {
+        key: "resumeGame",
+        value: function resumeGame() {
             // Let already created elements move again
+            // We need to keep the flow of the game (creating new elements :D )
+            console.log("Resuming game");
             $(".stopped").removeClass('stopped');
 
             this.addClickableJump(); //make skoddy jump again
-
-            // We need to keep the flow of the game (creating new elements :D )
-            this.gameStages.leavingStage();
             this.startLoopToCreateElements();
         }
     }, {
@@ -357,9 +361,7 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":6,"./StageDialogHandler":7}],3:[function(require,module,exports){
-"use strict";
-},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":7}],3:[function(require,module,exports){
+},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":7,"./StageDialogHandler":8}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -371,8 +373,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _StageDialogHandler = require("./StageDialogHandler");
 
 var _StageDialogHandler2 = _interopRequireDefault(_StageDialogHandler);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _WeldingShop = require("./WeldingShop");
 
@@ -402,7 +402,10 @@ var GameStageHandler = function () {
 
         this.activeStage = this.GameStages.PRESSSHOP;
         this.lastSavedStage = this.GameStages.PRESSSHOP;
-        this.stageDialog = new _StageDialogHandler2.default();
+
+        this.dialogButton = $(".stageButton");
+        this.dialogStageInfoBox = $(".stageInfoBox");
+        this.dialogStageInfoTextBox = $(".stageInfoTextBox");
     }
 
     //TODO do it more smart, load last saved game
@@ -421,8 +424,16 @@ var GameStageHandler = function () {
         }
     }, {
         key: "leavingStage",
-        value: function leavingStage() {
-            return this.setNextActiveStage(this.activeStage);
+        value: function leavingStage(gameInstance) {
+            var _this = this;
+
+            this.setNextActiveStage(this.activeStage);
+            this.dialogStageInfoTextBox.text("You are back in game fella!!");
+            this.dialogStageInfoBox.removeClass("hidden");
+            this.dialogButton.click(function () {
+                _this.dialogStageInfoBox.addClass("hidden");
+                gameInstance.resumeGame();
+            });
         }
     }, {
         key: "setNextActiveStage",
@@ -491,25 +502,53 @@ var GameStageHandler = function () {
     }, {
         key: "enteringStage",
         value: function enteringStage(gameStage, gameInstance) {
+            var _this2 = this;
+
             console.log("Changing game stage to: " + gameStage);
             switch (gameStage) {
                 case this.GameStages.PRESSSHOP:
-                    new _PressShop2.default(gameInstance).start();
+                    this.dialogStageInfoTextBox.text("Now you are going to the Press Shop phase!");
+                    this.dialogStageInfoBox.removeClass("hidden");
+                    this.dialogButton.click(function () {
+                        _this2.dialogStageInfoBox.addClass("hidden");
+                        new _PressShop2.default(gameInstance).start();
+                    });
                     break;
+
                 case this.GameStages.WELDINGSHOP:
-                    new _WeldingShop2.default(gameInstance).start();
+                    this.dialogStageInfoTextBox.text("Now you are going to the Welding Shop phase!");
+                    this.dialogStageInfoBox.removeClass("hidden");
+                    this.dialogButton.click(function () {
+                        _this2.dialogStageInfoBox.addClass("hidden");
+                        new _WeldingShop2.default(gameInstance).start();
+                    });
                     break;
+
                 case this.GameStages.PAINTSHOP:
-                    // new PaintShopt(gameInstance).start(); //uncomment after creating
-                    gameInstance.savePointLeaving();
+                    this.dialogStageInfoTextBox.text("Now you are going to the Paint Shop phase!");
+                    this.dialogStageInfoBox.removeClass("hidden");
+                    this.dialogButton.click(function () {
+                        _this2.dialogStageInfoBox.addClass("hidden");
+                        // new PaintShopt(gameInstance).start();
+                        gameInstance.savePointLeaving();
+                    });
                     break;
+
                 case this.GameStages.ASSEMBLY:
                     // new Assembly(gameInstance).start(); //uncomment after creating
-                    gameInstance.savePointLeaving();
+                    this.dialogStageInfoTextBox.text("Now you are going to the Assembly phase!");
+                    this.dialogStageInfoBox.removeClass("hidden");
+                    this.dialogButton.click(function () {
+                        _this2.dialogStageInfoBox.addClass("hidden");
+                        // new Assembly(gameInstance).start(); //uncomment after creating
+                        gameInstance.savePointLeaving();
+                    });
                     break;
+
                 case this.GameStages.POLYGON_TESTING:
                     //TODO completed handling?
                     break;
+
                 default:
                     break;
             }
@@ -521,7 +560,7 @@ var GameStageHandler = function () {
 
 exports.default = GameStageHandler;
 
-},{"./PressShop":6,"./WeldingShop":8}],4:[function(require,module,exports){
+},{"./PressShop":6,"./StageDialogHandler":8,"./WeldingShop":9}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -732,6 +771,45 @@ var Savingpoints = function () {
 exports.default = Savingpoints;
 
 },{}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var StageDialogHandler = function () {
+    function StageDialogHandler() {
+        _classCallCheck(this, StageDialogHandler);
+
+        this.button = $(".stageButton");
+        this.stageInfoBox = $(".stageInfoBox");
+        this.stageInfoTextBox = $(".stageInfoTextBox");
+    }
+
+    _createClass(StageDialogHandler, [{
+        key: "showText",
+        value: function showText(textToShow, nextStage) {
+            var _this = this;
+
+            this.stageInfoTextBox.text(textToShow);
+            this.button.click(function () {
+                _this.stageInfoBox.addClass("hidden");
+                nextStage.start();
+            });
+            this.stageInfoBox.removeClass("hidden");
+        }
+    }]);
+
+    return StageDialogHandler;
+}();
+
+exports.default = StageDialogHandler;
+
+},{}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

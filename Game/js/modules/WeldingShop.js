@@ -26,6 +26,7 @@ export default class WeldingShop {
         $(".welding_machine").addClass('hidden');
         $(".main_game").removeClass('hidden');
 
+
         this.gameInstance.savePointLeaving();
     }
 
