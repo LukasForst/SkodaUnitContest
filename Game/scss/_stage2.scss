@@ -4,6 +4,7 @@
 
 		&.disassembled {
 			background: url('../../img/auto/dis/disassembled.png') no-repeat;
+
 		}
 
 		&.with-door {
@@ -34,7 +35,16 @@
 			background: url('../../img/auto/dis/complete.png') no-repeat;
 		}
 
+		&-choices {
+			display: flex;
+			flex-direction: row;
+			//align-items: center;
+			justify-content: center;
+			margin: 10px;
+		}
+
 		&-kolo {
+			//position: absolute;
 			background: url('../../img/auto/dis/wheel.png') no-repeat;
 			background-size: contain;
 			width: 130px;
@@ -42,6 +52,7 @@
 
 		}
 		&-dvere {
+			//position: absolute;
 			background: url('../../img/auto/dis/door.png') no-repeat;
 			background-size: contain;
 			width: 230px;
