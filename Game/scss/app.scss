@@ -7,6 +7,7 @@ $color2:	blue;
 @import 'pipe';
 @import 'savingpoint';
 
+@import "auto";
 @import "stage1";
 @import "stage2";
 @import "stage3";
@@ -32,4 +33,8 @@ div {
 
 h1 {
 	font-weight: 300;
+}
+
+.hidden {
+	display: none;
 }
