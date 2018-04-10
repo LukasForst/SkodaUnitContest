@@ -1,3 +1,6 @@
+import WeldingShop from "./WeldingShop";
+import PressShop from "./PressShop";
+
 export default class GameStageHandler {
     constructor() {
         this.GameStages = Object.freeze({
@@ -95,15 +98,13 @@ export default class GameStageHandler {
         console.log("Changing game stage to: " + gameStage);
         switch (gameStage) {
             case this.GameStages.PRESSSHOP:
-                // new PressShop(gameInstance).start(); //uncomment after creating
-                gameInstance.savePointLeaving();
+                new PressShop(gameInstance).start();
                 break;
             case this.GameStages.WELDINGSHOP:
-                // new WeldingShop(gameInstance).start();
-                gameInstance.savePointLeaving();
+                new WeldingShop(gameInstance).start();
                 break;
             case this.GameStages.PAINTSHOP:
-                // new PaintShopt(gameInstance).start();
+                // new PaintShopt(gameInstance).start(); //uncomment after creating
                 gameInstance.savePointLeaving();
                 break;
             case this.GameStages.ASSEMBLY:

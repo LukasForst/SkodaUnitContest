@@ -48,12 +48,20 @@ export default class Game {
     start() {
 
         // react on any key
-        document.body.addEventListener('keydown', () => this.activityHandler());
+        this.addClickableJump();
 
         // handle touch start
         // todo: zkontrolovat na mobilu
         // if ("ontouchstart" in window)
         //     $(document).on("touchstart", this.activityHandler());
+    }
+
+    addClickableJump(){
+        document.body.addEventListener('keydown', () => this.activityHandler());
+    }
+
+    removeClickableJump(){
+        document.body.removeEventListener("keydown", () => this.activityHandler());
     }
 
     activityHandler() {
@@ -200,6 +208,7 @@ export default class Game {
     savePointReached() {
         console.log("saving point reached");
         $(".animated").addClass('stopped');  // Stop moving of currently existing elements
+        this.removeClickableJump(); //Stop skoddy from jumping
         this.stopInvervals();   // Stop creating of new elements
         this.gameStages.nextStage(this); //this will call next stage
     }
@@ -208,6 +217,8 @@ export default class Game {
         console.log("Leaving saving point.");
         // Let already created elements move again
         $(".stopped").removeClass('stopped');
+
+        this.addClickableJump(); //make skoddy jump again
 
         // We need to keep the flow of the game (creating new elements :D )
         this.gameStages.leavingStage();
