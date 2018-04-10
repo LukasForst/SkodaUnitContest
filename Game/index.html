@@ -8,6 +8,8 @@
 
 <body>
 
+<!--Main game (Skoddy)-->
+<div class="main_game">
 <div class="game__scene animated">
     <!-- todo: wait status, end status alert -->
     <div class="player"></div>
@@ -37,6 +39,83 @@
                 Race!
             </div>
         </div>
+    </div>
+</div>
+</div>
+
+<!--Press shop-->
+<div class="press_shop" class="hidden">
+    <div class="game__stage stage1">
+
+        <h1><span>Stage 1</span>Press shop</h1>
+
+        <div class="stage1__plech">
+            <div class="door-line"></div>
+        </div>
+
+        <div class="door-cut hidden"></div>
+
+        <a id="performPress" href="#" >Press!</a>
+    </div>
+</div>
+
+<!--Welding machine-->
+<div class="welding_machine" class="hidden" >
+    <div class="game__stage stage2">
+
+        <h1><span>Stage 2</span>Welding shop</h1>
+
+        <div class="stage2__auto disassembled"> </div>
+
+        <div class="stage2__auto-choices">
+            <div id="stage2kolo1" class="stage2__auto-kolo"></div>
+
+            <div id="stage2kolo2" class="stage2__auto-kolo"></div>
+
+            <div id="stage2dvere" class="stage2__auto-dvere"></div>
+        </div>
+
+    </div>
+</div>
+
+
+<!--Paint Shop-->
+<div class="paint_shop" class="hidden">
+    <div class="game__stage stage3">
+
+        <h1><span>Stage 3</span>Paint shop</h1>
+
+        <div class="stage3__auto default">
+        </div>
+
+        <div class="stage3__colors">
+
+            <h2>Choose color:</h2>
+            <span class="stage3__colors-1"></span>
+            <span class="stage3__colors-2"></span>
+        </div>
+
+    </div>
+</div>
+
+<!--Assembly-->
+<div class="assembly" class="hidden">
+    <div class="game__stage stage4">
+
+        <h1><span>Stage 4</span>Assembly</h1>
+
+        <div class="stage4__auto"></div>
+
+        <div id="stage4volant" class="stage4__auto-volant"></div>
+    </div>
+</div>
+
+<!--Polygon testing-->
+<div class="polygon_testing" class="hidden">
+    <div class="game__stage stage5">
+
+        <h1><span>Stage 5</span>Polygon</h1>
+
     </div>
 </div>
 
