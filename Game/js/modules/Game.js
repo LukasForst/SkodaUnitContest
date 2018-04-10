@@ -1,5 +1,6 @@
 import Player from "./Player";
 import Pipes from "./Pipes";
+import GameStageHandler from "./GameStageHandler"
 
 const
     gameScene = $('.game__scene'),
@@ -11,15 +12,8 @@ const
         RUN: 1,
         RETRY: 2,
         DEAD: 3
-    }),
-
-    CurrentGameStage = Object.freeze({
-       PRESSSHOP: 0,
-       WELDINGSHOP: 1,
-       PAINTSHOP: 2,
-       ASSEMBLY: 3,
-       POLYGON_TESTING: 4,
     });
+
 
 export default class Game {
 
@@ -28,6 +22,7 @@ export default class Game {
         this.pipes = new Pipes(gameScene);
         this.mode = Mode.WAIT;
         this.onePipeScoreAddition = 10;
+        this.gameStages = new GameStageHandler();
         this.start();
     }
 
@@ -70,14 +65,14 @@ export default class Game {
     }
 
     runGame() {
-
         // set defaults
+        this.gameStages.resetGame();
         this.player.speed = 0;
         this.player.top = 180;
         this.player.rotation = 0;
         this.player.el.css({'transform': 'none'});
         this.player.update();
-        this.currentScroe = 0;
+        this.currentScore = 0;
 
         // clear out all the pipes if there are any
         $(".pipe").remove();
@@ -138,11 +133,12 @@ export default class Game {
         }
     }
 
-    updateScore(){
+    updateScore() {
         console.log("Updating score");
-        this.currentScroe += this.onePipeScoreAddition;
-        console.log("New score " + this.currentScroe);
-        $("#scoreStats").html('<h1>Your current score: ' + this.currentScroe +'</h1>');
+        this.currentScore += this.onePipeScoreAddition;
+        console.log("New score " + this.currentScore);
+        $("#scoreStats").html('<h1>Your current score: ' + this.currentScore + '</h1>');
+        this.gameStages.nextStage();
     }
 
     endGame() {
@@ -178,8 +174,5 @@ export default class Game {
         // todo: show alert
         console.log('Game Over');
     }
-
-
 }
-
 

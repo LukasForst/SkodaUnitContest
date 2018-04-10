@@ -28,6 +28,10 @@ var _Pipes = require("./Pipes");
 
 var _Pipes2 = _interopRequireDefault(_Pipes);
 
+var _GameStageHandler = require("./GameStageHandler");
+
+var _GameStageHandler2 = _interopRequireDefault(_GameStageHandler);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42,13 +46,6 @@ Mode = Object.freeze({
     RUN: 1,
     RETRY: 2,
     DEAD: 3
-}),
-    CurrentGameStage = Object.freeze({
-    PRESSSHOP: 0,
-    WELDINGSHOP: 1,
-    PAINTSHOP: 2,
-    ASSEMBLY: 3,
-    POLYGON_TESTING: 4
 });
 
 var Game = function () {
@@ -59,6 +56,7 @@ var Game = function () {
         this.pipes = new _Pipes2.default(gameScene);
         this.mode = Mode.WAIT;
         this.onePipeScoreAddition = 10;
+        this.gameStages = new _GameStageHandler2.default();
         this.start();
     }
 
@@ -110,14 +108,14 @@ var Game = function () {
     }, {
         key: "runGame",
         value: function runGame() {
-
             // set defaults
+            this.gameStages.resetGame();
             this.player.speed = 0;
             this.player.top = 180;
             this.player.rotation = 0;
             this.player.el.css({ 'transform': 'none' });
             this.player.update();
-            this.currentScroe = 0;
+            this.currentScore = 0;
 
             // clear out all the pipes if there are any
             $(".pipe").remove();
@@ -130,6 +128,9 @@ var Game = function () {
             // change mode
             this.mode = Mode.RUN;
         }
+    }, {
+        key: "resetGameStagesStyles",
+        value: function resetGameStagesStyles() {}
     }, {
         key: "gameLoop",
         value: function gameLoop() {
@@ -180,9 +181,10 @@ var Game = function () {
         key: "updateScore",
         value: function updateScore() {
             console.log("Updating score");
-            this.currentScroe += this.onePipeScoreAddition;
-            console.log("New score " + this.currentScroe);
-            $("#scoreStats").html('<h1>Your current score: ' + this.currentScroe + '</h1>');
+            this.currentScore += this.onePipeScoreAddition;
+            console.log("New score " + this.currentScore);
+            $("#scoreStats").html('<h1>Your current score: ' + this.currentScore + '</h1>');
+            this.gameStages.nextStage();
         }
     }, {
         key: "endGame",
@@ -225,7 +227,103 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./Pipes":3,"./Player":4}],3:[function(require,module,exports){
+},{"./GameStageHandler":3,"./Pipes":4,"./Player":5}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var GameStageHandler = function () {
+    function GameStageHandler() {
+        _classCallCheck(this, GameStageHandler);
+
+        this.GameStages = Object.freeze({
+            PRESSSHOP: 0,
+            WELDINGSHOP: 1,
+            PAINTSHOP: 2,
+            ASSEMBLY: 3,
+            POLYGON_TESTING: 4,
+            COMPLETED: 5
+        });
+
+        this.currentStage = this.GameStages.PRESSSHOP;
+        this.lastSavedStage = this.GameStages.PRESSSHOP;
+    }
+
+    //TODO do it more smart, load last saved game
+
+
+    _createClass(GameStageHandler, [{
+        key: 'resetGame',
+        value: function resetGame() {
+            $("#pressShopStage").attr('class', 'gameStage gameStageActive');
+            $("#weldingShopStage").attr('class', 'gameStage gameStageToExplore');
+            $("#paintShopStage").attr('class', 'gameStage gameStageToExplore');
+            $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
+            $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+            this.currentStage = this.GameStages.PRESSSHOP;
+        }
+    }, {
+        key: 'nextStage',
+        value: function nextStage() {
+            this.currentStage = this.gameStageCompleted(this.currentStage);
+            return this.currentStage;
+        }
+    }, {
+        key: 'gameStageCompleted',
+        value: function gameStageCompleted(gameStage) {
+            switch (gameStage) {
+                case this.GameStages.PRESSSHOP:
+                    $("#pressShopStage").removeClass("gameStageActive");
+                    $("#pressShopStage").addClass("gameStageCompleted");
+
+                    $("#weldingShopStage").removeClass("gameStageToExplore");
+                    $("#weldingShopStage").addClass("gameStageActive");
+                    return this.GameStages.WELDINGSHOP;
+                case this.GameStages.ASSEMBLY:
+                    $("#assemblyStage").removeClass("gameStageActive");
+                    $("#assemblyStage").addClass("gameStageCompleted");
+
+                    $("#polygonStage").removeClass("gameStageToExplore");
+                    $("#polygonStage").addClass("gameStageActive");
+                    return this.GameStages.POLYGON_TESTING;
+                case this.GameStages.PAINTSHOP:
+
+                    $("#paintShopStage").removeClass("gameStageActive");
+                    $("#paintShopStage").addClass("gameStageCompleted");
+
+                    $("#assemblyStage").removeClass("gameStageToExplore");
+                    $("#assemblyStage").addClass("gameStageActive");
+                    return this.GameStages.ASSEMBLY;
+                case this.GameStages.POLYGON_TESTING:
+                    $("#polygonStage").removeClass("gameStageActive");
+                    $("#polygonStage").addClass("gameStageCompleted");
+
+                    return this.GameStages.COMPLETED;
+                case this.GameStages.WELDINGSHOP:
+                    $("#weldingShopStage").removeClass("gameStageActive");
+                    $("#weldingShopStage").addClass("gameStageCompleted");
+
+                    $("#paintShopStage").removeClass("gameStageToExplore");
+                    $("#paintShopStage").addClass("gameStageActive");
+                    return this.GameStages.PAINTSHOP;
+                default:
+                    break;
+            }
+        }
+    }]);
+
+    return GameStageHandler;
+}();
+
+exports.default = GameStageHandler;
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -276,7 +374,7 @@ var Pipes = function () {
 
 exports.default = Pipes;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
