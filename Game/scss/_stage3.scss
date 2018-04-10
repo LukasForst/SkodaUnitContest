@@ -1,0 +1,38 @@
+.stage3 {
+
+	&__auto {
+
+	}
+
+	&__colors {
+
+		width: 80%;
+		height: 4em;
+		margin: auto;
+
+		&-1, &-2 {
+			width: 50%;
+			display: inline-block;
+			float: left;
+			height: 100%;
+		}
+
+		&-1 {
+			background: $color1;
+
+			&:hover {
+				background: lighten($color1, 30%);
+				cursor: pointer;
+			}
+		}
+
+		&-2 {
+			background: $color2;
+
+			&:hover {
+				background: lighten($color2, 30%);
+				cursor: pointer;
+			}
+		}
+	}
+}
