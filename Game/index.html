@@ -7,40 +7,42 @@
     <link rel="stylesheet" href="scss/dist/app.css">
 
 <body>
+<div class="stageInfoBox">
+    <div class="stageInfoTextBox">This is stage info text.</div>
+    <div class="stageButtonBox">
+        <button class="stageButton">Click me to start!</button>
+    </div>
+</div>
 
 <!--Main game (Skoddy)-->
 <div class="main_game">
-<div class="game__scene animated">
-    <!-- todo: wait status, end status alert -->
-    <div class="player"></div>
-</div>
-<div class="game__status">
-    <div id="progress">
-        <div id="scoreStats"><h1>Your current score: 0</h1></div>
-        <div class="gameStagesContainer">
-            <div id="pressShopStage" class="gameStage gameStageActive">
-                <div class="img"></div>
-                Press Shop
-            </div>
-            <div id="weldingShopStage" class="gameStage gameStageToExplore">
-                <div class="img"></div>
-                Welding Shop
-            </div>
-            <div id="paintShopStage" class="gameStage gameStageToExplore">
-                <div class="img"></div>
-                Paint Shop
-            </div>
-            <div id="assemblyStage" class="gameStage gameStageToExplore">
-                <div class="img"></div>
-                Assembly
-            </div>
-            <div id="polygonStage" class="gameStage gameStageToExplore">
-                <div class="img"></div>
-                Race!
+    <div class="game__scene animated">
+        <!-- todo: wait status, end status alert -->
+        <div class="player"></div>
+    </div>
+    <div class="game__status">
+        <div id="progress">
+            <div id="scoreStats"><h1>Your current score: 0</h1></div>
+            <div class="gameStagesContainer">
+                <div id="pressShopStage" class="gameStage gameStageActive">
+                    <div class="img"></div>
+                    Press Shop
+                </div>
+                <div id="weldingShopStage" class="gameStage gameStageToExplore">
+                    <div class="img"></div>
+                    Welding Shop
+                </div>
+                <div id="paintShopStage" class="gameStage gameStageToExplore">
+                    <div class="img"></div>
+                    Paint Shop
+                </div>
+                <div id="assemblyStage" class="gameStage gameStageToExplore">
+                    <div class="img"></div>
+                    Assembly
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <!--Press shop-->
@@ -55,17 +57,17 @@
 
         <div class="door-cut hidden"></div>
 
-        <a id="performPress" href="#" >Press!</a>
+        <a id="performPress" href="#">Press!</a>
     </div>
 </div>
 
 <!--Welding machine-->
-<div class="welding_machine hidden" >
+<div class="welding_machine hidden">
     <div class="game__stage stage2">
 
         <h1><span>Stage 2</span>Welding shop</h1>
 
-        <div class="stage2__auto disassembled"> </div>
+        <div class="stage2__auto disassembled"></div>
 
         <div class="stage2__auto-choices">
             <div id="stage2kolo1" class="stage2__auto-kolo"></div>
@@ -80,7 +82,7 @@
 
 
 <!--Paint Shop-->
-<div class="paint_shop hidden" >
+<div class="paint_shop hidden">
     <div class="game__stage stage3">
 
         <h1><span>Stage 3</span>Paint shop</h1>
@@ -99,7 +101,7 @@
 </div>
 
 <!--Assembly-->
-<div class="assembly hidden" >
+<div class="assembly hidden">
     <div class="game__stage stage4">
 
         <h1><span>Stage 4</span>Assembly</h1>
@@ -111,7 +113,7 @@
 </div>
 
 <!--Polygon testing-->
-<div class="polygon_testing hidden" >
+<div class="polygon_testing hidden">
     <div class="game__stage stage5">
 
         <h1><span>Stage 5</span>Polygon</h1>

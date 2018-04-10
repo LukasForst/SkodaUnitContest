@@ -4,6 +4,7 @@ $brand-color: #00800d;
 $blue-sky:		#74c1ff;
 
 @import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700');
+@import "colors";
 @import 'game';
 @import 'player';
 @import 'pipe';
@@ -15,7 +16,6 @@ $blue-sky:		#74c1ff;
 @import "stage2";
 @import "stage3";
 @import "stage4";
-@import "stage5";
 
 .main_game {
 	height: 100%;
@@ -51,6 +51,10 @@ body, html {
 
 	font-family: 'Comfortaa', cursive;
 	font-weight: 300;
+
+	@media (max-width: 768px) { // mobil + tablet
+		font-size: 14px;
+	}
 
 }
 
