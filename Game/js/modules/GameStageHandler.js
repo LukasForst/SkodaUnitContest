@@ -1,5 +1,7 @@
 import WeldingShop from "./WeldingShop";
 import PressShop from "./PressShop";
+import PaintShop from "./PaintShop";
+import Assembly from "./Assembly";
 
 export default class GameStageHandler {
     constructor() {
@@ -104,12 +106,10 @@ export default class GameStageHandler {
                 new WeldingShop(gameInstance).start();
                 break;
             case this.GameStages.PAINTSHOP:
-                // new PaintShopt(gameInstance).start(); //uncomment after creating
-                gameInstance.savePointLeaving();
+                new PaintShop(gameInstance).start();
                 break;
             case this.GameStages.ASSEMBLY:
-                // new Assembly(gameInstance).start(); //uncomment after creating
-                gameInstance.savePointLeaving();
+                new Assembly(gameInstance).start();
                 break;
             case this.GameStages.POLYGON_TESTING:
                 //TODO completed handling?
