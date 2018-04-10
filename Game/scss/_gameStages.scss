@@ -1,0 +1,44 @@
+.gameStagesContainer{
+  display: flex;
+  flex-direction: row;
+}
+
+.gameStagesContainer > .gameStage{
+  flex: auto;
+}
+
+.gameStage > .img{
+  content: url("../../img/skoddy.png");
+  display: block;
+  margin: auto;
+  width: 50px;
+  height: 50px;
+}
+
+.gameStage {
+  text-align: center;
+}
+
+.gameStage > .img:hover{
+//TODO show some king of tooltip
+}
+
+
+.gameStageActive{
+  opacity: 1;
+}
+
+.gameStageCompleted > .img{
+  content: url("../../img/skoddyCompleated.png");
+  width: 50px;
+  height: 50px;
+}
+
+.gameStageToExplore{
+  opacity: 0.1;
+}
+
+.gameStageToExplore:hover{
+  opacity: 1;
+}
+
