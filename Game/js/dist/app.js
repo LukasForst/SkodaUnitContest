@@ -773,7 +773,6 @@ var PressShop = function () {
                 _this.showSkoddyScene();
             }).bind(this);
             // here goes change to next stage
-
         }
     }, {
         key: "showSkoddyScene",
