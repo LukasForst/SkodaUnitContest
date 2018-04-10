@@ -332,8 +332,8 @@ var Game = function () {
         key: "startLoopToCreateElements",
         value: function startLoopToCreateElements() {
             this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
-            this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
-            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 2000);
+            this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 4000);
+            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 10000);
         }
     }, {
         key: "gameLoop",

@@ -2,12 +2,12 @@ $color1:	red;
 $color2:	blue;
 $brand-color: #00800d;
 $blue-sky:		#74c1ff;
-//
-//@font-face {
-//	font-family: "Comfortaa";
-//	src: url("../../font/Comfortaa-Bold.ttf") format("truetype");
-//}
-//
+
+@font-face {
+	font-family: "Comfortaa";
+	src: url("../../font/Comfortaa-Light.ttf") format("truetype");
+}
+
 //@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700');
 @import "colors";
 @import 'game';
