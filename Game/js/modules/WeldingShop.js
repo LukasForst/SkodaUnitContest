@@ -36,7 +36,7 @@ export default class WeldingShop {
             else if(this.kolo2Added && this.doorAdded){
                 $(".stage2__auto").removeClass('with-right-wheel-and-door');
                 $(".stage2__auto").addClass('complete');
-                this.showSkoddyScene();
+                setTimeout(() => this.showSkoddyScene(), 2000);
             }
             else if(!this.kolo2Added && !this.doorAdded){
                 $(".stage2__auto").removeClass('disassembled');
@@ -59,7 +59,7 @@ export default class WeldingShop {
             else if(this.kolo1Added && this.doorAdded){
                 $(".stage2__auto").removeClass('with-left-wheel-and-door');
                 $(".stage2__auto").addClass('complete');
-                this.showSkoddyScene();
+                setTimeout(() => this.showSkoddyScene(), 2000);
             }
             else if(!this.kolo1Added && !this.doorAdded){
                 $(".stage2__auto").removeClass('with-left-wheel');
@@ -82,7 +82,7 @@ export default class WeldingShop {
             else if(this.kolo1Added && this.kolo2Added ){
                 $(".stage2__auto").removeClass('with-wheels');
                 $(".stage2__auto").addClass('complete');
-                this.showSkoddyScene();
+                setTimeout(() => this.showSkoddyScene(), 2000);
             }
             else if(!this.kolo1Added && !this.kolo2Added ){
                 $(".stage2__auto").removeClass('disassembled');

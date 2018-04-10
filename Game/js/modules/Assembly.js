@@ -27,10 +27,10 @@ export default class Assembly {
         $("#stage4volant").click((ev) => {
 
             $(".stage4__auto").addClass('complete');
-            $(".stage4__auto").removeClass('stage4__auto');
+            // $(".stage4__auto").removeClass('stage4__auto');
 
-            $("#stage2kolo1").addClass("hidden");
-            this.showSkoddyScene();
+            $("#stage4volant").addClass("hidden");
+            setTimeout(() => this.showSkoddyScene(), 2000);
         });
 
     }

@@ -17,14 +17,12 @@ export default class PaintShop {
         console.log("Entering paint shop scene");
 
 
-        //TODO all functionality
+        setTimeout(() => this.showSkoddyScene(), 5000);
 
-
-        console.log("Leaving paint shop scene");
-        this.showSkoddyScene(); // go back to main scene
     }
 
     showSkoddyScene(){
+        console.log("Leaving paint shop scene");
         $(".paint_shop").addClass('hidden');
         $(".main_game").removeClass('hidden');
 

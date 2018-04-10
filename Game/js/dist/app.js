@@ -85,10 +85,12 @@ var Assembly = function () {
             $("#stage4volant").click(function (ev) {
 
                 $(".stage4__auto").addClass('complete');
-                $(".stage4__auto").removeClass('stage4__auto');
+                // $(".stage4__auto").removeClass('stage4__auto');
 
-                $("#stage2kolo1").addClass("hidden");
-                _this.showSkoddyScene();
+                $("#stage4volant").addClass("hidden");
+                setTimeout(function () {
+                    return _this.showSkoddyScene();
+                }, 2000);
             });
         }
     }, {
@@ -332,8 +334,8 @@ var Game = function () {
         key: "startLoopToCreateElements",
         value: function startLoopToCreateElements() {
             this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
-            this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
-            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 2000);
+            this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 4000);
+            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 10000);
         }
     }, {
         key: "gameLoop",
@@ -720,17 +722,18 @@ var PaintShop = function () {
     _createClass(PaintShop, [{
         key: "start",
         value: function start() {
+            var _this = this;
+
             console.log("Entering paint shop scene");
 
-            //TODO all functionality
-
-
-            console.log("Leaving paint shop scene");
-            this.showSkoddyScene(); // go back to main scene
+            setTimeout(function () {
+                return _this.showSkoddyScene();
+            }, 5000);
         }
     }, {
         key: "showSkoddyScene",
         value: function showSkoddyScene() {
+            console.log("Leaving paint shop scene");
             $(".paint_shop").addClass('hidden');
             $(".main_game").removeClass('hidden');
 
@@ -1052,7 +1055,9 @@ var WeldingShop = function () {
                 if (_this.kolo1Added) return;else if (_this.kolo2Added && _this.doorAdded) {
                     $(".stage2__auto").removeClass('with-right-wheel-and-door');
                     $(".stage2__auto").addClass('complete');
-                    _this.showSkoddyScene();
+                    setTimeout(function () {
+                        return _this.showSkoddyScene();
+                    }, 2000);
                 } else if (!_this.kolo2Added && !_this.doorAdded) {
                     $(".stage2__auto").removeClass('disassembled');
                     $(".stage2__auto").addClass('with-left-wheel');
@@ -1071,7 +1076,9 @@ var WeldingShop = function () {
                 if (_this.kolo2Added) return;else if (_this.kolo1Added && _this.doorAdded) {
                     $(".stage2__auto").removeClass('with-left-wheel-and-door');
                     $(".stage2__auto").addClass('complete');
-                    _this.showSkoddyScene();
+                    setTimeout(function () {
+                        return _this.showSkoddyScene();
+                    }, 2000);
                 } else if (!_this.kolo1Added && !_this.doorAdded) {
                     $(".stage2__auto").removeClass('with-left-wheel');
                     $(".stage2__auto").addClass('with-right-wheel-and-door');
@@ -1090,7 +1097,9 @@ var WeldingShop = function () {
                 if (_this.doorAdded) return;else if (_this.kolo1Added && _this.kolo2Added) {
                     $(".stage2__auto").removeClass('with-wheels');
                     $(".stage2__auto").addClass('complete');
-                    _this.showSkoddyScene();
+                    setTimeout(function () {
+                        return _this.showSkoddyScene();
+                    }, 2000);
                 } else if (!_this.kolo1Added && !_this.kolo2Added) {
                     $(".stage2__auto").removeClass('disassembled');
                     $(".stage2__auto").addClass('with-door');
