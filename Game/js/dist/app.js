@@ -159,6 +159,7 @@ var Game = function () {
         value: function runGame() {
             // set defaults
             this.gameStages.resetGame();
+            this.savingPoints.counter = 0;
             this.player.speed = 0;
             this.player.top = 180;
             this.player.rotation = 0;
@@ -584,7 +585,7 @@ var Player = function () {
 exports.default = Player;
 
 },{}],6:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -600,14 +601,16 @@ var Savingpoints = function () {
 
         this.array = [];
         this.pointHeight = 180;
-        this.pointWidth = 20;
+        this.pointWidth = 120;
 
         this.gameScene = gameScene;
         this.gameSceneH = gameScene.height();
+
+        this.counter = 1;
     }
 
     _createClass(Savingpoints, [{
-        key: "updateSavingPoints",
+        key: 'updateSavingPoints',
         value: function updateSavingPoints() {
 
             // remove pipes
@@ -616,16 +619,19 @@ var Savingpoints = function () {
             }).remove();
 
             // add a new pipe (top height + bottom height + pipeheight == gameSceneH) and put it in our tracker
-            var padding = 80,
-                constraint = this.gameSceneH - this.pointHeight - padding * 2,
-                // double padding (for top and bottom)
-            topHeight = Math.floor(Math.random() * constraint + padding),
-                // add lower padding
-            bottomHeight = this.gameSceneH - this.pointHeight - topHeight,
-                newPoint = $('<div class="savingpoint animated"></div>');
 
-            this.gameScene.append(newPoint);
-            this.array.push(newPoint);
+            if (this.counter < 4) {
+                var padding = 80,
+                    constraint = this.gameSceneH - this.pointHeight - padding * 2,
+                    // double padding (for top and bottom)
+                topHeight = Math.floor(Math.random() * constraint + padding),
+                    // add lower padding
+                bottomHeight = this.gameSceneH - this.pointHeight - topHeight,
+                    newPoint = $('<div class="savingpoint animated stage-' + this.counter++ + '"></div>');
+
+                this.gameScene.append(newPoint);
+                this.array.push(newPoint);
+            }
         }
     }]);
 

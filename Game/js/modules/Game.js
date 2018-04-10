@@ -92,6 +92,7 @@ export default class Game {
     runGame() {
         // set defaults
         this.gameStages.resetGame();
+        this.savingPoints.counter = 0;
         this.player.speed = 0;
         this.player.top = 180;
         this.player.rotation = 0;
