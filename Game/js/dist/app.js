@@ -5,6 +5,10 @@ var _Game = require('./modules/Game');
 
 var _Game2 = _interopRequireDefault(_Game);
 
+var _Cutting = require('./modules/Cutting');
+
+var _Cutting2 = _interopRequireDefault(_Cutting);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,6 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
         new _Game2.default();
     }
 
+    if ($('.stage1__plech').length) {
+        new _Cutting2.default();
+        console.log('tu');
+    }
     // Stage 3: changing colors
 
     var auto = $('.stage3__auto'),
