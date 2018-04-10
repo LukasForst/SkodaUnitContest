@@ -34,7 +34,57 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-},{"./modules/Game":2}],2:[function(require,module,exports){
+},{"./modules/Game":3}],2:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Assembly = function () {
+    function Assembly(gameInstance) {
+        _classCallCheck(this, Assembly);
+
+        this.gameInstance = gameInstance;
+
+        // Hid the Skoddy scene
+        $(".main_game").addClass('hidden');
+
+        // Show welding machine
+        $(".assembly").removeClass('hidden');
+    }
+
+    _createClass(Assembly, [{
+        key: "start",
+        value: function start() {
+            console.log("Entering assembly scene");
+
+            //TODO all functionality
+
+
+            console.log("Leaving assembly scene");
+            this.showSkoddyScene(); // go back to main scene
+        }
+    }, {
+        key: "showSkoddyScene",
+        value: function showSkoddyScene() {
+            $(".assembly").addClass('hidden');
+            $(".main_game").removeClass('hidden');
+
+            this.gameInstance.savePointLeaving();
+        }
+    }]);
+
+    return Assembly;
+}();
+
+exports.default = Assembly;
+
+},{}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -351,7 +401,7 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":7}],3:[function(require,module,exports){
+},{"./GameStageHandler":4,"./Pipes":6,"./Player":7,"./Savingpoints":9}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -367,6 +417,14 @@ var _WeldingShop2 = _interopRequireDefault(_WeldingShop);
 var _PressShop = require("./PressShop");
 
 var _PressShop2 = _interopRequireDefault(_PressShop);
+
+var _PaintShop = require("./PaintShop");
+
+var _PaintShop2 = _interopRequireDefault(_PaintShop);
+
+var _Assembly = require("./Assembly");
+
+var _Assembly2 = _interopRequireDefault(_Assembly);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -485,12 +543,10 @@ var GameStageHandler = function () {
                     new _WeldingShop2.default(gameInstance).start();
                     break;
                 case this.GameStages.PAINTSHOP:
-                    // new PaintShopt(gameInstance).start(); //uncomment after creating
-                    gameInstance.savePointLeaving();
+                    new _PaintShop2.default(gameInstance).start();
                     break;
                 case this.GameStages.ASSEMBLY:
-                    // new Assembly(gameInstance).start(); //uncomment after creating
-                    gameInstance.savePointLeaving();
+                    new _Assembly2.default(gameInstance).start();
                     break;
                 case this.GameStages.POLYGON_TESTING:
                     //TODO completed handling?
@@ -506,7 +562,57 @@ var GameStageHandler = function () {
 
 exports.default = GameStageHandler;
 
-},{"./PressShop":6,"./WeldingShop":8}],4:[function(require,module,exports){
+},{"./Assembly":2,"./PaintShop":5,"./PressShop":8,"./WeldingShop":10}],5:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PaintShop = function () {
+    function PaintShop(gameInstance) {
+        _classCallCheck(this, PaintShop);
+
+        this.gameInstance = gameInstance;
+
+        // Hid the Skoddy scene
+        $(".main_game").addClass('hidden');
+
+        // Show welding machine
+        $(".paint_shop").removeClass('hidden');
+    }
+
+    _createClass(PaintShop, [{
+        key: "start",
+        value: function start() {
+            console.log("Entering paint shop scene");
+
+            //TODO all functionality
+
+
+            console.log("Leaving paint shop scene");
+            this.showSkoddyScene(); // go back to main scene
+        }
+    }, {
+        key: "showSkoddyScene",
+        value: function showSkoddyScene() {
+            $(".paint_shop").addClass('hidden');
+            $(".main_game").removeClass('hidden');
+
+            this.gameInstance.savePointLeaving();
+        }
+    }]);
+
+    return PaintShop;
+}();
+
+exports.default = PaintShop;
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -557,7 +663,7 @@ var Pipes = function () {
 
 exports.default = Pipes;
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -610,8 +716,8 @@ var Player = function () {
 
 exports.default = Player;
 
-},{}],6:[function(require,module,exports){
-'use strict';
+},{}],8:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -660,8 +766,8 @@ var PressShop = function () {
 
 exports.default = PressShop;
 
-},{}],7:[function(require,module,exports){
-"use strict";
+},{}],9:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -716,7 +822,7 @@ var Savingpoints = function () {
 
 exports.default = Savingpoints;
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -738,6 +844,10 @@ var WeldingShop = function () {
 
         // Show welding machine
         $(".welding_machine").removeClass('hidden');
+
+        this.kolo1Added = false;
+        this.kolo2Added = false;
+        this.doorAdded = false;
     }
 
     _createClass(WeldingShop, [{
@@ -746,13 +856,79 @@ var WeldingShop = function () {
             console.log("Entering welding machine scene");
             //TODO all functionality
 
+            this.setElementsClickable();
 
-            console.log("Leaving welding machine scene");
-            this.showSkoddyScene(); // go back to main scene
+            //TODO
+            // console.log("Leaving welding machine scene");
+            // this.showSkoddyScene(); // go back to main scene
+        }
+    }, {
+        key: "setElementsClickable",
+        value: function setElementsClickable() {
+            var _this = this;
+
+            $("#stage2kolo1").click(function (ev) {
+                if (_this.kolo1Added) return;else if (_this.kolo2Added && _this.doorAdded) {
+                    $(".stage2__auto").removeClass('with-right-wheel-and-door');
+                    $(".stage2__auto").addClass('complete');
+                    _this.showSkoddyScene();
+                } else if (!_this.kolo2Added && !_this.doorAdded) {
+                    $(".stage2__auto").removeClass('disassembled');
+                    $(".stage2__auto").addClass('with-left-wheel');
+                } else if (_this.kolo2Added && !_this.doorAdded) {
+                    $(".stage2__auto").removeClass('with-right-wheel');
+                    $(".stage2__auto").addClass('with-wheels');
+                } else if (!_this.kolo2Added && _this.doorAdded) {
+                    $(".stage2__auto").removeClass('with-door');
+                    $(".stage2__auto").addClass('with-left-wheel-and-door');
+                }
+                _this.kolo1Added = true;
+                $("#stage2kolo1").addClass("hidden");
+            });
+
+            $("#stage2kolo2").click(function (ev) {
+                if (_this.kolo2Added) return;else if (_this.kolo1Added && _this.doorAdded) {
+                    $(".stage2__auto").removeClass('with-left-wheel-and-door');
+                    $(".stage2__auto").addClass('complete');
+                    _this.showSkoddyScene();
+                } else if (!_this.kolo1Added && !_this.doorAdded) {
+                    $(".stage2__auto").removeClass('with-left-wheel');
+                    $(".stage2__auto").addClass('with-right-wheel-and-door');
+                } else if (_this.kolo1Added && !_this.doorAdded) {
+                    $(".stage2__auto").removeClass('with-left-wheel');
+                    $(".stage2__auto").addClass('with-wheels');
+                } else if (!_this.kolo1Added && _this.doorAdded) {
+                    $(".stage2__auto").removeClass('with-door');
+                    $(".stage2__auto").addClass('with-right-wheel-and-door');
+                }
+                _this.kolo2Added = true;
+                $("#stage2kolo2").addClass("hidden");
+            });
+
+            $("#stage2dvere").click(function (ev) {
+                if (_this.doorAdded) return;else if (_this.kolo1Added && _this.kolo2Added) {
+                    $(".stage2__auto").removeClass('with-wheels');
+                    $(".stage2__auto").addClass('complete');
+                    _this.showSkoddyScene();
+                } else if (!_this.kolo1Added && !_this.kolo2Added) {
+                    $(".stage2__auto").removeClass('disassembled');
+                    $(".stage2__auto").addClass('with-door');
+                } else if (_this.kolo1Added && !_this.kolo2Added) {
+                    $(".stage2__auto").removeClass('with-left-wheel');
+                    $(".stage2__auto").addClass('with-left-wheel-and-door');
+                } else if (!_this.kolo1Added && _this.kolo2Added) {
+                    $(".stage2__auto").removeClass('with-right-wheel');
+                    $(".stage2__auto").addClass('with-right-wheel-and-door');
+                }
+                _this.doorAdded = true;
+                $("#stage2dvere").addClass("hidden");
+            });
         }
     }, {
         key: "showSkoddyScene",
         value: function showSkoddyScene() {
+            //TODO LUKY FOR YOU
+
             $(".welding_machine").addClass('hidden');
             $(".main_game").removeClass('hidden');
 
