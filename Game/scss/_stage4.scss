@@ -1,0 +1,26 @@
+.stage4 {
+
+	&__auto {
+
+		background: url("../../img/auto/inside/disassembled.png") no-repeat;
+		background-size: contain !important;
+		background-position: 50% !important;
+		width: 80%;
+		margin: auto;
+		height: 400px;
+
+		&.complete {
+			background: url("../../img/auto/inside/complete.png") no-repeat;
+		}
+
+		&-volant {
+			background: url("../../img/auto/inside/volant.png") no-repeat;
+			background-size: contain !important;
+			background-position: 50% !important;
+
+			width: 23%;
+			height: 230px;
+		}
+
+	}
+}
