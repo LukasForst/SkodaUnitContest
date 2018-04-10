@@ -16,7 +16,6 @@ export default class PressShop {
     start(){
         console.log("Entering press shop scene");
 
-
         $('.door-line').on('click', function (e) {
             $('.stage1__plech').addClass('hidden');
             $('.door-line').removeClass('hidden');
