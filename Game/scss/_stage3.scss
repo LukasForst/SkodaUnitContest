@@ -2,6 +2,11 @@
 
 	&__auto {
 
+		@media (max-width: 768px) {
+			height: calc(100vh - 207px - 40px - 96px);
+			background-position: 50% !important;
+		}
+
 		&.default {
 			background: url('../../img/auto/rapid-default-white.png') no-repeat;
 		}
@@ -20,6 +25,19 @@
 		width: 80%;
 		height: 4em;
 		margin: auto;
+
+		@media (max-width: 768px) {
+			width: 80%;
+			height: 96px;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			bottom: 40px;
+
+			span {
+				height: 3em;
+			}
+		}
 
 		h2 {
 			background: white;
