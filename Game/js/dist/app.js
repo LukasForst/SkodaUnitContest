@@ -40,6 +40,31 @@ document.addEventListener("DOMContentLoaded", function () {
         auto.removeClass('red');
         auto.addClass('blue');
     });
+
+    var stage0 = $('.stage-0'),
+        stage1 = $('.stage-1'),
+        stage2 = $('.stage-2'),
+        stage3 = $('.stage-3'),
+        img0 = $('#pressShopStage'),
+        img1 = $('#weldingShopStage'),
+        img2 = $('#paintShopStage'),
+        img3 = $('#assemblyStage');
+
+    if (img0.hasClass('gameStageCompleted')) {
+        stage0.addClass('hidden');
+    }
+
+    if (img1.hasClass('gameStageCompleted')) {
+        stage1.css({ 'display': 'none' });
+    }
+
+    if (img2.hasClass('gameStageCompleted')) {
+        stage2.css({ 'display': 'none' });
+    }
+
+    if (img3.hasClass('gameStageCompleted')) {
+        stage3.css({ 'display': 'none' });
+    }
 });
 
 },{"./modules/Cutting":3,"./modules/Game":4}],2:[function(require,module,exports){
@@ -99,6 +124,8 @@ var Assembly = function () {
             console.log("Leaving assembly scene");
             $(".assembly").addClass('hidden');
             $(".main_game").removeClass('hidden');
+            $('.stage-3').addClass('hidden');
+            $('.pipe').addClass('hidden');
 
             this.gameInstance.savePointLeaving();
         }
@@ -737,6 +764,9 @@ var PaintShop = function () {
             $(".paint_shop").addClass('hidden');
             $(".main_game").removeClass('hidden');
 
+            $('.stage-2').addClass('hidden');
+            $('.pipe').addClass('hidden');
+
             this.gameInstance.savePointLeaving();
         }
     }]);
@@ -901,6 +931,10 @@ var PressShop = function () {
         value: function showSkoddyScene() {
             $(".press_shop").addClass('hidden');
             $(".main_game").removeClass('hidden');
+            $('.stage-0').addClass('hidden');
+
+            // document.getElementsByClassName('pipe').addClass('hidden');
+            $('.pipe').addClass('hidden');
 
             this.gameInstance.savePointLeaving();
         }
@@ -1121,6 +1155,8 @@ var WeldingShop = function () {
 
             $(".welding_machine").addClass('hidden');
             $(".main_game").removeClass('hidden');
+            $('.stage-1').addClass('hidden');
+            $('.pipe').addClass('hidden');
 
             this.gameInstance.savePointLeaving();
         }

@@ -39,6 +39,9 @@ export default class Assembly {
         console.log("Leaving assembly scene");
         $(".assembly").addClass('hidden');
         $(".main_game").removeClass('hidden');
+        $('.stage-3').addClass('hidden');
+        $('.pipe').addClass('hidden');
+
 
         this.gameInstance.savePointLeaving();
     }

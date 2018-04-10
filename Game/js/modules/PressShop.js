@@ -39,6 +39,10 @@ export default class PressShop {
     showSkoddyScene(){
         $(".press_shop").addClass('hidden');
         $(".main_game").removeClass('hidden');
+        $('.stage-0').addClass('hidden');
+
+        // document.getElementsByClassName('pipe').addClass('hidden');
+        $('.pipe').addClass('hidden');
 
         this.gameInstance.savePointLeaving();
     }

@@ -26,6 +26,9 @@ export default class PaintShop {
         $(".paint_shop").addClass('hidden');
         $(".main_game").removeClass('hidden');
 
+        $('.stage-2').addClass('hidden');
+        $('.pipe').addClass('hidden');
+
         this.gameInstance.savePointLeaving();
     }
 }
