@@ -15,17 +15,29 @@ $color2:	blue;
 @import "stage4";
 @import "stage5";
 
-.main_game {}
+.main_game {
+	height: 100%;
+}
 
-.press_shop{}
+.press_shop{
+	height: 100%;
+}
 
-.welding_machine{}
+.welding_machine{
+	height: 100%;
+}
 
-.paint_shop{}
+.paint_shop{
+	height: 100%;
+}
 
-.assembly{}
+.assembly{
+	height: 100%;
+}
 
-.polygon_testing{}
+.polygon_testing{
+	height: 100%;
+}
 
 
 body, html {
