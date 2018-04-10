@@ -27,12 +27,18 @@
 	&__stage {
 
 		height: 100%;
+		background: url("../../img/factory-bg.jpg") no-repeat rgba(255, 255, 255, 0.4);
+		background-size: cover;
+
+		background-blend-mode: lighten;
 
 		h1 {
 
 			text-align: center;
 			font-size: 4em;
-			margin-bottom: 60px;
+			margin: 0 0 60px;
+			padding: 40px 0 30px;
+			background: white;
 
 			span {
 				font-size: 14px;
