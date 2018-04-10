@@ -611,7 +611,7 @@ var Player = function () {
 exports.default = Player;
 
 },{}],6:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -661,7 +661,7 @@ var PressShop = function () {
 exports.default = PressShop;
 
 },{}],7:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true

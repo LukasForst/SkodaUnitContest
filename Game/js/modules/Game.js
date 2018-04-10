@@ -122,6 +122,7 @@ export default class Game {
 
         // change mode
         this.mode = Mode.RUN;
+
     }
 
     startLoopToCreateElements() {

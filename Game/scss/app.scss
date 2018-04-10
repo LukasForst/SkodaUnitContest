@@ -52,6 +52,10 @@ body, html {
 	font-family: 'Comfortaa', cursive;
 	font-weight: 300;
 
+	@media (max-width: 768px) { // mobil + tablet
+		font-size: 14px;
+	}
+
 }
 
 div {
