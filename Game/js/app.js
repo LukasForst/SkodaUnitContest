@@ -1,4 +1,5 @@
 import Game from './modules/Game';
+import Cutting from './modules/Cutting'
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -8,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
         new Game();
     }
 
+    if($('.stage1__plech').length){
+        new Cutting();
+    }
     // Stage 3: changing colors
 
     const   auto = $('.stage3__auto'),

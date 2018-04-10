@@ -1,32 +1,25 @@
 class Cutting{
-    metal_sheet;
-    component_tab;
+    door_cut;
     pressButton;
-
+    door_line;
+    metal_sheet;
     constructor() {
-        this.metal_sheet = document.querySelector('.metal_sheet');
-        this.component_tab = document.querySelector('.component_tab');
-        this.pressButton = document.querySelector('.pressButton');
+        this.metal_sheet = document.querySelector('.stage1_plech');
+        this.door_line = document.querySelector('.door-line');
+        this.pressButton = document.querySelector('#performPress');
 
-        metal_sheet.addEventListener('click', function (e) {
-            metal_sheet.classList.add('hidden');
+        this.door_line.addEventListener('click', function (e) {
+            this.metal_sheet.classList.add('hidden');
             createComponentTab();
         })
     }
 
     createComponentTab() {
         this.pressButton.classList.remove('hidden');
-        this.pressButton.classList.remove('hidden');
-        var img = component_tab.createElement('div');
-        var btn = component_tab.createElement('button');
-
-        img.classList.add('door');
-        btn.innerHTML = 'Lisovat';
-        btn.addEventListener('click', function (ev) {
-            if(!img.classList.contains('pressed')){
-                img.classList.add('pressed');
-            }
+        this.pressButton.addEventListener('click', function (ev) {
+            this.door_cut.classList.remove('hidden')
         })
+
     }
 
 }
