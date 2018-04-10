@@ -115,8 +115,7 @@ export default class GameStageHandler {
                 this.dialogButton.unbind();
                 this.dialogButton.click(() => {
                     this.dialogStageInfoBox.addClass("hidden");
-                    // new PressShop(gameInstance).start();
-                    gameInstance.savePointLeaving();
+                    new PressShop(gameInstance).start();
                 });
                 break;
 
@@ -126,8 +125,7 @@ export default class GameStageHandler {
                 this.dialogButton.unbind();
                 this.dialogButton.click(() => {
                     this.dialogStageInfoBox.addClass("hidden");
-                    // new WeldingShop(gameInstance).start();
-                    gameInstance.savePointLeaving();
+                    new WeldingShop(gameInstance).start();
                 });
                 break;
 
