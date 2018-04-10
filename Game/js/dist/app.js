@@ -42,6 +42,13 @@ Mode = Object.freeze({
     RUN: 1,
     RETRY: 2,
     DEAD: 3
+}),
+    CurrentGameStage = Object.freeze({
+    PRESSSHOP: 0,
+    WELDINGSHOP: 1,
+    PAINTSHOP: 2,
+    ASSEMBLY: 3,
+    POLYGON_TESTING: 4
 });
 
 var Game = function () {
@@ -51,6 +58,7 @@ var Game = function () {
         this.player = new _Player2.default();
         this.pipes = new _Pipes2.default(gameScene);
         this.mode = Mode.WAIT;
+        this.onePipeScoreAddition = 10;
         this.start();
     }
 
@@ -109,6 +117,7 @@ var Game = function () {
             this.player.rotation = 0;
             this.player.el.css({ 'transform': 'none' });
             this.player.update();
+            this.currentScroe = 0;
 
             // clear out all the pipes if there are any
             $(".pipe").remove();
@@ -164,7 +173,16 @@ var Game = function () {
             if (this.player.left > pipeRight) {
                 // yes, remove it
                 this.pipes.array.splice(0, 1);
+                this.updateScore();
             }
+        }
+    }, {
+        key: "updateScore",
+        value: function updateScore() {
+            console.log("Updating score");
+            this.currentScroe += this.onePipeScoreAddition;
+            console.log("New score " + this.currentScroe);
+            $("#scoreStats").html('<h1>Your current score: ' + this.currentScroe + '</h1>');
         }
     }, {
         key: "endGame",
