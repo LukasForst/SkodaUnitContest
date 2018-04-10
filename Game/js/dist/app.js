@@ -51,6 +51,10 @@ var _Pipes = require("./Pipes");
 
 var _Pipes2 = _interopRequireDefault(_Pipes);
 
+var _GameStageHandler = require("./GameStageHandler");
+
+var _GameStageHandler2 = _interopRequireDefault(_GameStageHandler);
+
 var _Savingpoints = require("./Savingpoints");
 
 var _Savingpoints2 = _interopRequireDefault(_Savingpoints);
@@ -76,7 +80,8 @@ Mode = Object.freeze({
     WELDINGSHOP: 1,
     PAINTSHOP: 2,
     ASSEMBLY: 3,
-    POLYGON_TESTING: 4
+    POLYGON_TESTING: 4,
+    DEAD: 3
 });
 
 var Game = function () {
@@ -87,6 +92,9 @@ var Game = function () {
 
         this.pipes = new _Pipes2.default(gameScene);
         this.onePipeScoreAddition = 10;
+        this.currentScore = -10;
+
+        this.gameStages = new _GameStageHandler2.default();
 
         this.savingPoints = new _Savingpoints2.default(gameScene);
         this.nextLevel = CurrentGameStage.PRESSSHOP;
@@ -149,14 +157,15 @@ var Game = function () {
     }, {
         key: "runGame",
         value: function runGame() {
-
             // set defaults
+            this.gameStages.resetGame();
             this.player.speed = 0;
             this.player.top = 180;
             this.player.rotation = 0;
             this.player.el.css({ 'transform': 'none' });
             this.player.update();
-            this.currentScroe = 0;
+            this.currentScore = -10;
+            this.updateScore();
 
             // clear out all the pipes if there are any
             $(".pipe").remove();
@@ -249,9 +258,9 @@ var Game = function () {
         key: "updateScore",
         value: function updateScore() {
             console.log("Updating score");
-            this.currentScroe += this.onePipeScoreAddition;
-            console.log("New score " + this.currentScroe);
-            $("#scoreStats").html('<h1>Your current score: ' + this.currentScroe + '</h1>');
+            this.currentScore += this.onePipeScoreAddition;
+            console.log("New score " + this.currentScore);
+            $("#scoreStats").html('<h1>Your current score: ' + this.currentScore + '</h1>');
         }
     }, {
         key: "savePointReached",
@@ -259,50 +268,17 @@ var Game = function () {
             console.log("saving point reached");
             $(".animated").addClass('stopped'); // Stop moving of currently existing elements
             this.stopInvervals(); // Stop creating of new elements
-
-            switch (this.nextLevel) {
-                case CurrentGameStage.PRESSSHOP:
-                    window.location.replace("./stages/stage1.html");
-                    this.nextLevel = CurrentGameStage.WELDINGSHOP;
-                    //TODO start Javascript file handling PRESSHOP
-                    break;
-
-                case CurrentGameStage.WELDINGSHOP:
-                    window.location.replace("./stages/stage2.html");
-                    this.nextLevel = CurrentGameStage.PAINTSHOP;
-                    //TODO start Javascript file handling WELDINGSHOP
-                    break;
-
-                case CurrentGameStage.PAINTSHOP:
-                    window.location.replace("./stages/stage3.html");
-                    this.nextLevel = CurrentGameStage.ASSEMBLY;
-                    //TODO start Javascript file handling PAINTSHOP
-                    break;
-
-                case CurrentGameStage.ASSEMBLY:
-                    window.location.replace("./stages/stage4.html");
-                    //TODO
-                    this.nextLevel = CurrentGameStage.POLYGON_TESTING;
-                    //TODO start Javascript file handling ASSEMBLY
-                    break;
-
-                case CurrentGameStage.POLYGON_TESTING:
-                    window.location.replace("./stages/stage5.html");
-                    //TODO start Javascript file handling PolygonTesting
-                    //TODO end game, we have a kiddo winner!
-                    break;
-            }
-
-            // Go back to properly working Skoddy
-            this.savePointLeaving();
+            this.gameStages.nextStage(this); //this will call next stage
         }
     }, {
         key: "savePointLeaving",
         value: function savePointLeaving() {
+            console.log("Leaving saving point.");
             // Let already created elements move again
             $(".stopped").removeClass('stopped');
 
             // We need to keep the flow of the game (creating new elements :D )
+            this.gameStages.leavingStage();
             this.startLoopToCreateElements();
         }
     }, {
@@ -356,7 +332,154 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./Pipes":3,"./Player":4,"./Savingpoints":5}],3:[function(require,module,exports){
+},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":6}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var GameStageHandler = function () {
+    function GameStageHandler() {
+        _classCallCheck(this, GameStageHandler);
+
+        this.GameStages = Object.freeze({
+            START: -1,
+            PRESSSHOP: 0,
+            WELDINGSHOP: 1,
+            PAINTSHOP: 2,
+            ASSEMBLY: 3,
+            POLYGON_TESTING: 4,
+            COMPLETED: 5
+        });
+
+        this.activeStage = this.GameStages.PRESSSHOP;
+        this.lastSavedStage = this.GameStages.PRESSSHOP;
+    }
+
+    //TODO do it more smart, load last saved game
+
+
+    _createClass(GameStageHandler, [{
+        key: 'resetGame',
+        value: function resetGame() {
+            this.activeStage = this.GameStages.START;
+            this.setNextActiveStage(this.activeStage);
+        }
+    }, {
+        key: 'nextStage',
+        value: function nextStage(gameInstance) {
+            return this.enteringStage(this.activeStage, gameInstance);
+        }
+    }, {
+        key: 'leavingStage',
+        value: function leavingStage() {
+            return this.setNextActiveStage(this.activeStage);
+        }
+    }, {
+        key: 'setNextActiveStage',
+        value: function setNextActiveStage(currentActiveStage) {
+            switch (currentActiveStage) {
+                case this.GameStages.START:
+                    $("#pressShopStage").attr('class', 'gameStage gameStageActive');
+                    $("#weldingShopStage").attr('class', 'gameStage gameStageToExplore');
+                    $("#paintShopStage").attr('class', 'gameStage gameStageToExplore');
+                    $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
+                    $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+
+                    this.activeStage = this.GameStages.PRESSSHOP;
+                    break;
+                case this.GameStages.PRESSSHOP:
+                    $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#weldingShopStage").attr('class', 'gameStage gameStageActive');
+                    $("#paintShopStage").attr('class', 'gameStage gameStageToExplore');
+                    $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
+                    $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+
+                    this.activeStage = this.GameStages.WELDINGSHOP;
+                    break;
+                case this.GameStages.WELDINGSHOP:
+                    $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#weldingShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#paintShopStage").attr('class', 'gameStage gameStageActive');
+                    $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
+                    $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+
+                    this.activeStage = this.GameStages.PAINTSHOP;
+                    break;
+                case this.GameStages.PAINTSHOP:
+                    $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#weldingShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#assemblyStage").attr('class', 'gameStage gameStageActive');
+                    $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+
+                    this.activeStage = this.GameStages.ASSEMBLY;
+                    break;
+                case this.GameStages.ASSEMBLY:
+                    $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#weldingShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#assemblyStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#polygonStage").attr('class', 'gameStage gameStageActive');
+
+                    this.activeStage = this.GameStages.POLYGON_TESTING;
+                    break;
+                case this.GameStages.POLYGON_TESTING:
+                    $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#weldingShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#assemblyStage").attr('class', 'gameStage gameStageCompleted');
+                    $("#polygonStage").attr('class', 'gameStage gameStageCompleted');
+
+                    //TODO completed handling?
+                    this.activeStage = this.GameStages.COMPLETED;
+                    break;
+                default:
+                    break;
+            }
+            return this.activeStage;
+        }
+    }, {
+        key: 'enteringStage',
+        value: function enteringStage(gameStage, gameInstance) {
+            console.log("Changing game stage to: " + gameStage);
+            switch (gameStage) {
+                case this.GameStages.PRESSSHOP:
+                    // new PressShop(gameInstance).start(); //uncomment after creating
+                    gameInstance.savePointLeaving();
+                    break;
+                case this.GameStages.WELDINGSHOP:
+                    // new WeldingShop(gameInstance).start();
+                    gameInstance.savePointLeaving();
+                    break;
+                case this.GameStages.PAINTSHOP:
+                    // new PaintShopt(gameInstance).start();
+                    gameInstance.savePointLeaving();
+                    break;
+                case this.GameStages.ASSEMBLY:
+                    // new Assembly(gameInstance).start(); //uncomment after creating
+                    gameInstance.savePointLeaving();
+                    break;
+                case this.GameStages.POLYGON_TESTING:
+                    //TODO completed handling?
+                    break;
+                default:
+                    break;
+            }
+        }
+    }]);
+
+    return GameStageHandler;
+}();
+
+exports.default = GameStageHandler;
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -407,7 +530,7 @@ var Pipes = function () {
 
 exports.default = Pipes;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -460,7 +583,7 @@ var Player = function () {
 
 exports.default = Player;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
