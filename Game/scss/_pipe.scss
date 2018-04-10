@@ -5,6 +5,8 @@
 	height: 100%;
 	z-index: 10;
 
+	border-radius: 0 0 6px 6px;
+
 	-webkit-animation: animPipe 7500ms linear;
 	animation: animPipe 7500ms linear;
 
@@ -12,9 +14,13 @@
 		position: absolute;
 		top: 0;
 		width: 52px;
-		background-image: url('../../img/pipe.png');
-		background-repeat: repeat-y;
-		background-position: center;
+
+		border-radius: 0 0 6px 6px;
+
+		background: $brand-color;
+		-webkit-box-shadow: inset 0px 0px 12px 1px rgba(0,0,0,0.75);
+		-moz-box-shadow: inset 0px 0px 12px 1px rgba(0,0,0,0.75);
+		box-shadow: inset 0px 0px 12px 1px rgba(0,0,0,0.75);
 
 		&:after {
 			content: "";
@@ -22,7 +28,10 @@
 			bottom: 0;
 			width: 52px;
 			height: 26px;
-			background-image: url('../../img/pipe-down.png');
+
+			background: darken($brand-color, 10%);
+
+			border-radius: 0 0 6px 6px;
 		}
 	}
 
@@ -30,9 +39,12 @@
 		position: absolute;
 		bottom: 0;
 		width: 52px;
-		background-image: url('../../img/pipe.png');
-		background-repeat: repeat-y;
-		background-position: center;
+
+		border-radius: 6px 6px 0 0;
+		background: #007f0f;
+		-webkit-box-shadow: inset 0px 0px 12px 1px rgba(0,0,0,0.75);
+		-moz-box-shadow: inset 0px 0px 12px 1px rgba(0,0,0,0.75);
+		box-shadow: inset 0px 0px 12px 1px rgba(0,0,0,0.75);
 
 		&:after {
 			content: "";
@@ -40,7 +52,11 @@
 			top: 0;
 			width: 52px;
 			height: 26px;
-			background-image: url('../../img/pipe-up.png');
+
+			border-radius: 6px 6px 0 0;
+
+			background: darken($brand-color, 10%);
+
 		}
 	}
 }

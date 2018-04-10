@@ -4,10 +4,12 @@ export default class Savingpoints {
 
         this.array = [];
         this.pointHeight = 180;
-        this.pointWidth = 20;
+        this.pointWidth = 120;
 
         this.gameScene = gameScene;
         this.gameSceneH = gameScene.height();
+
+        this.counter = 1;
     }
 
     updateSavingPoints() {
@@ -18,14 +20,18 @@ export default class Savingpoints {
         }).remove();
 
         // add a new pipe (top height + bottom height + pipeheight == gameSceneH) and put it in our tracker
-        let padding = 80,
-            constraint = this.gameSceneH - this.pointHeight - (padding * 2), // double padding (for top and bottom)
-            topHeight = Math.floor((Math.random() * constraint) + padding), // add lower padding
-            bottomHeight = (this.gameSceneH - this.pointHeight) - topHeight,
-            newPoint =
-                $('<div class="savingpoint animated"></div>');
 
-        this.gameScene.append(newPoint);
-        this.array.push(newPoint);
+        if (this.counter < 4) {
+            let padding = 80,
+                constraint = this.gameSceneH - this.pointHeight - (padding * 2), // double padding (for top and bottom)
+                topHeight = Math.floor((Math.random() * constraint) + padding), // add lower padding
+                bottomHeight = (this.gameSceneH - this.pointHeight) - topHeight,
+                newPoint =
+                    $('<div class="savingpoint animated stage-'  + this.counter++ + '"></div>');
+
+            this.gameScene.append(newPoint);
+            this.array.push(newPoint);
+        }
+
     }
 }

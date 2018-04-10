@@ -3,6 +3,30 @@ export default class WeldingShop {
 
     constructor(gameInstance){
         this.gameInstance = gameInstance;
+
+
+        // Hid the Skoddy scene
+        $(".main_game").addClass('hidden');
+
+        // Show welding machine
+        $(".welding_machine").removeClass('hidden');
+
+    }
+
+    start(){
+        console.log("Entering welding machine scene");
+        //TODO all functionality
+
+
+        console.log("Leaving welding machine scene");
+        this.showSkoddyScene(); // go back to main scene
+    }
+
+    showSkoddyScene(){
+        $(".welding_machine").addClass('hidden');
+        $(".main_game").removeClass('hidden');
+
+        this.gameInstance.savePointLeaving();
     }
 
     allowDrop(ev) {

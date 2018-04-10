@@ -1,48 +1,59 @@
 .savingpoint {
-  position: absolute;
-  left: -100px;
-  width: 20px;
-  height: 100%;
-  z-index: 10;
+	position: absolute;
+	left: -100px;
+	width: 80px;
+	height: 100%;
+	z-index: 10;
 
-  -webkit-animation: animPipe 7500ms linear;
-  animation: animPipe 7500ms linear;
+	-webkit-animation: animPipe 7500ms linear;
+	animation: animPipe 7500ms linear;
 
-  background-color: aqua;
+	background-color: #8BC34A;
 
-  //&_upper {
-  //  position: absolute;
-  //  top: 0;
-  //  width: 52px;
-  //  background-image: url('../../img/pipe.png');
-  //  background-repeat: repeat-y;
-  //  background-position: center;
-  //
-  //  &:after {
-  //    content: "";
-  //    position: absolute;
-  //    bottom: 0;
-  //    width: 52px;
-  //    height: 26px;
-  //    background-image: url('../../img/pipe-down.png');
-  //  }
-  //}
-  //
-  //&_lower {
-  //  position: absolute;
-  //  bottom: 0;
-  //  width: 52px;
-  //  background-image: url('../../img/pipe.png');
-  //  background-repeat: repeat-y;
-  //  background-position: center;
-  //
-  //  &:after {
-  //    content: "";
-  //    position: absolute;
-  //    top: 0;
-  //    width: 52px;
-  //    height: 26px;
-  //    background-image: url('../../img/pipe-up.png');
-  //  }
-  //}
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+
+	&::before {
+		content: 'Saving point';
+		display: block;
+		padding: 20px 5px;
+		line-height: 24px;
+		text-align: center;
+		letter-spacing: 1px;
+		background: #FFEB3B;
+		text-transform: uppercase;
+	}
+	&::after {
+		transform: rotate(-90deg);
+		display: block;
+		text-align: center;
+		margin-top: 200px;
+		color: white;
+		letter-spacing: 1px;
+		font-size: 18px;
+	}
+
+	&.stage-0 {
+		&::after {
+			content: 'Press Shop';
+		}
+	}
+
+	&.stage-1 {
+		&::after {
+			content: 'Welding Shop';
+		}
+	}
+
+	&.stage-2 {
+		&::after {
+			content: 'Paint Shop';
+		}
+	}
+
+	&.stage-3 {
+		&::after {
+			content: 'Assembly';
+		}
+	}
 }

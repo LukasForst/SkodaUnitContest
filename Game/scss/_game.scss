@@ -10,7 +10,7 @@
 
 		position: relative;
 
-		background: #4ec0ca url('../../img/sky.png') repeat-x 0 100%;
+		background: $blue-sky url('../../img/sky-blue.png') repeat-x 0 100%;
 		-webkit-animation: animSky 7s linear infinite;
 		animation: animSky 7s linear infinite;
 	}
@@ -20,8 +20,12 @@
 		height: $statusBarHeight;
 		padding: 1em 2em;
 
-		background: $color-skoda;
-		border-top: 1px solid white;
+		background: $brand-color;
+
+		h1 {
+			color: white;
+			margin-bottom: 60px;
+		}
 	}
 
 	&__stage {

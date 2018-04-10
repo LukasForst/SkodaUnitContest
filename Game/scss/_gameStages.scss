@@ -1,44 +1,50 @@
-.gameStagesContainer{
-  display: flex;
-  flex-direction: row;
+.gameStagesContainer {
+	display: flex;
+	flex-direction: row;
+
+	color: white;
+	font-weight: 400;
 }
 
-.gameStagesContainer > .gameStage{
-  flex: auto;
+.gameStagesContainer > .gameStage {
+	flex: auto;
 }
 
-.gameStage > .img{
-  content: url("../../img/skoddy.png");
-  display: block;
-  margin: auto;
-  width: 50px;
-  height: 50px;
+.gameStage > .img {
+	content: url("../../img/skoddy.png");
+	display: block;
+	margin: auto;
+	width: 50px;
+	height: 50px;
+
+	margin-bottom: 15px;
 }
 
 .gameStage {
-  text-align: center;
+	text-align: center;
 }
 
-.gameStage > .img:hover{
-//TODO show some king of tooltip
+.gameStage > .img:hover {
+	//TODO show some king of tooltip
 }
 
-
-.gameStageActive{
-  opacity: 1;
+.gameStageActive {
+	opacity: 1;
 }
 
-.gameStageCompleted > .img{
-  content: url("../../img/skoddyCompleated.png");
-  width: 50px;
-  height: 50px;
+.gameStageCompleted > .img {
+	content: url("../../img/skoddyCompleated.png");
+	width: 50px;
+	height: 50px;
+
+	margin-bottom: 15px;
 }
 
-.gameStageToExplore{
-  opacity: 0.1;
+.gameStageToExplore {
+	opacity: 0.1;
 }
 
-.gameStageToExplore:hover{
-  opacity: 1;
+.gameStageToExplore:hover {
+	opacity: 1;
 }
 
