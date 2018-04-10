@@ -48,12 +48,20 @@ export default class Game {
     start() {
 
         // react on any key
-        document.body.addEventListener('keydown', () => this.activityHandler());
+        this.addClickableJump();
 
         // handle touch start
         // todo: zkontrolovat na mobilu
         // if ("ontouchstart" in window)
         //     $(document).on("touchstart", this.activityHandler());
+    }
+
+    addClickableJump(){
+        document.body.addEventListener('keydown', () => this.activityHandler());
+    }
+
+    removeClickableJump(){
+        document.body.removeEventListener("keydown", () => this.activityHandler());
     }
 
     activityHandler() {

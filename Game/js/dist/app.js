@@ -106,12 +106,9 @@ var Game = function () {
     _createClass(Game, [{
         key: "start",
         value: function start() {
-            var _this = this;
 
             // react on any key
-            document.body.addEventListener('keydown', function () {
-                return _this.activityHandler();
-            });
+            this.addClickableJump();
 
             // handle touch start
             // todo: zkontrolovat na mobilu
@@ -119,9 +116,27 @@ var Game = function () {
             //     $(document).on("touchstart", this.activityHandler());
         }
     }, {
+        key: "addClickableJump",
+        value: function addClickableJump() {
+            var _this = this;
+
+            document.body.addEventListener('keydown', function () {
+                return _this.activityHandler();
+            });
+        }
+    }, {
+        key: "removeClickableJump",
+        value: function removeClickableJump() {
+            var _this2 = this;
+
+            document.body.removeEventListener("keydown", function () {
+                return _this2.activityHandler();
+            });
+        }
+    }, {
         key: "activityHandler",
         value: function activityHandler() {
-            var _this2 = this;
+            var _this3 = this;
 
             switch (this.mode) {
                 case Mode.WAIT:
@@ -133,7 +148,7 @@ var Game = function () {
                 case Mode.RETRY:
                     // hid the player and then run from default position
                     this.player.el.fadeOut(function () {
-                        _this2.runGame();
+                        _this3.runGame();
                     });
 
                     break;
@@ -332,14 +347,24 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":6}],3:[function(require,module,exports){
-'use strict';
+},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":7}],3:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _WeldingShop = require("./WeldingShop");
+
+var _WeldingShop2 = _interopRequireDefault(_WeldingShop);
+
+var _PressShop = require("./PressShop");
+
+var _PressShop2 = _interopRequireDefault(_PressShop);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -365,23 +390,23 @@ var GameStageHandler = function () {
 
 
     _createClass(GameStageHandler, [{
-        key: 'resetGame',
+        key: "resetGame",
         value: function resetGame() {
             this.activeStage = this.GameStages.START;
             this.setNextActiveStage(this.activeStage);
         }
     }, {
-        key: 'nextStage',
+        key: "nextStage",
         value: function nextStage(gameInstance) {
             return this.enteringStage(this.activeStage, gameInstance);
         }
     }, {
-        key: 'leavingStage',
+        key: "leavingStage",
         value: function leavingStage() {
             return this.setNextActiveStage(this.activeStage);
         }
     }, {
-        key: 'setNextActiveStage',
+        key: "setNextActiveStage",
         value: function setNextActiveStage(currentActiveStage) {
             switch (currentActiveStage) {
                 case this.GameStages.START:
@@ -445,20 +470,19 @@ var GameStageHandler = function () {
             return this.activeStage;
         }
     }, {
-        key: 'enteringStage',
+        key: "enteringStage",
         value: function enteringStage(gameStage, gameInstance) {
             console.log("Changing game stage to: " + gameStage);
             switch (gameStage) {
                 case this.GameStages.PRESSSHOP:
-                    // new PressShop(gameInstance).start(); //uncomment after creating
+                    new _PressShop2.default(gameInstance).start();
                     gameInstance.savePointLeaving();
                     break;
                 case this.GameStages.WELDINGSHOP:
-                    // new WeldingShop(gameInstance).start();
-                    gameInstance.savePointLeaving();
+                    new _WeldingShop2.default(gameInstance).start();
                     break;
                 case this.GameStages.PAINTSHOP:
-                    // new PaintShopt(gameInstance).start();
+                    // new PaintShopt(gameInstance).start(); //uncomment after creating
                     gameInstance.savePointLeaving();
                     break;
                 case this.GameStages.ASSEMBLY:
@@ -479,7 +503,7 @@ var GameStageHandler = function () {
 
 exports.default = GameStageHandler;
 
-},{}],4:[function(require,module,exports){
+},{"./PressShop":6,"./WeldingShop":8}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -594,6 +618,60 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var PressShop = function () {
+    function PressShop(gameInstance) {
+        _classCallCheck(this, PressShop);
+
+        this.gameInstance = gameInstance;
+
+        //Stop skoddy from jumping
+        gameInstance.removeClickableJump();
+
+        // Hid the Skoddy scene
+        $(".main_game").addClass('hidden');
+
+        // Show welding machine
+        $(".press_shop").removeClass('hidden');
+    }
+
+    _createClass(PressShop, [{
+        key: "start",
+        value: function start() {
+            console.log("Entering press shop scene");
+
+            //TODO all functionality (Mato, pro tebe)
+
+
+            console.log("Leaving press shop scene");
+            this.showSkoddyScene(); // go back to main scene
+        }
+    }, {
+        key: "showSkoddyScene",
+        value: function showSkoddyScene() {
+            this.gameInstance.addClickableJump();
+            $(".press_shop").addClass('hidden');
+            $(".main_game").removeClass('hidden');
+
+            this.gameInstance.savePointLeaving();
+        }
+    }]);
+
+    return PressShop;
+}();
+
+exports.default = PressShop;
+
+},{}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var Savingpoints = function () {
     function Savingpoints(gameScene) {
         _classCallCheck(this, Savingpoints);
@@ -633,5 +711,95 @@ var Savingpoints = function () {
 }();
 
 exports.default = Savingpoints;
+
+},{}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var WeldingShop = function () {
+    function WeldingShop(gameInstance) {
+        _classCallCheck(this, WeldingShop);
+
+        this.gameInstance = gameInstance;
+
+        //Stop skoddy from jumping
+        gameInstance.removeClickableJump();
+
+        // Hid the Skoddy scene
+        $(".main_game").addClass('hidden');
+
+        // Show welding machine
+        $(".welding_machine").removeClass('hidden');
+    }
+
+    _createClass(WeldingShop, [{
+        key: "start",
+        value: function start() {
+            console.log("Entering welding machine scene");
+            //TODO all functionality
+
+
+            console.log("Leaving welding machine scene");
+            this.showSkoddyScene(); // go back to main scene
+        }
+    }, {
+        key: "showSkoddyScene",
+        value: function showSkoddyScene() {
+            this.gameInstance.addClickableJump();
+            $(".welding_machine").addClass('hidden');
+            $(".main_game").removeClass('hidden');
+
+            this.gameInstance.savePointLeaving();
+        }
+    }, {
+        key: "allowDrop",
+        value: function allowDrop(ev) {
+            ev.preventDefault();
+        }
+    }, {
+        key: "drag",
+        value: function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+    }, {
+        key: "drop",
+        value: function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    }]);
+
+    return WeldingShop;
+}();
+
+/* Usage
+-----------------
+<body>
+
+
+Na tuhle pozici se smí přesouvat jiné divy
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<br>
+
+
+Tenhle div mění svou pozici
+<img id="drag1" src="img_logo.gif" draggable="true" ondragstart="drag(event)" width="336" height="69">
+
+</body>
+</html>
+
+
+ */
+
+
+exports.default = WeldingShop;
 
 },{}]},{},[1]);
