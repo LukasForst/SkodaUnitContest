@@ -1,6 +1,7 @@
-export default class GameStageHandler{
-    constructor(){
+export default class GameStageHandler {
+    constructor() {
         this.GameStages = Object.freeze({
+            START: -1,
             PRESSSHOP: 0,
             WELDINGSHOP: 1,
             PAINTSHOP: 2,
@@ -9,61 +10,109 @@ export default class GameStageHandler{
             COMPLETED: 5
         });
 
-        this.currentStage = this.GameStages.PRESSSHOP;
+        this.activeStage = this.GameStages.PRESSSHOP;
         this.lastSavedStage = this.GameStages.PRESSSHOP;
     }
 
     //TODO do it more smart, load last saved game
-    resetGame(){
-        $("#pressShopStage").attr('class', 'gameStage gameStageActive');
-        $("#weldingShopStage").attr('class', 'gameStage gameStageToExplore');
-        $("#paintShopStage").attr('class', 'gameStage gameStageToExplore');
-        $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
-        $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
-        this.currentStage = this.GameStages.PRESSSHOP;
+    resetGame() {
+        this.activeStage = this.GameStages.START;
+        this.setNextActiveStage(this.activeStage);
     }
 
-    nextStage(){
-        this.currentStage = this.gameStageCompleted(this.currentStage);
-        return this.currentStage;
+    nextStage(gameInstance) {
+        return this.enteringStage(this.activeStage, gameInstance);
     }
 
-    gameStageCompleted(gameStage) {
+    leavingStage() {
+        return this.setNextActiveStage(this.activeStage);
+    }
+
+    setNextActiveStage(currentActiveStage) {
+        switch (currentActiveStage) {
+            case this.GameStages.START:
+                $("#pressShopStage").attr('class', 'gameStage gameStageActive');
+                $("#weldingShopStage").attr('class', 'gameStage gameStageToExplore');
+                $("#paintShopStage").attr('class', 'gameStage gameStageToExplore');
+                $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
+                $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+
+                this.activeStage = this.GameStages.PRESSSHOP;
+                break;
+            case this.GameStages.PRESSSHOP:
+                $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#weldingShopStage").attr('class', 'gameStage gameStageActive');
+                $("#paintShopStage").attr('class', 'gameStage gameStageToExplore');
+                $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
+                $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+
+                this.activeStage = this.GameStages.WELDINGSHOP;
+                break;
+            case this.GameStages.WELDINGSHOP:
+                $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#weldingShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#paintShopStage").attr('class', 'gameStage gameStageActive');
+                $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
+                $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+
+                this.activeStage = this.GameStages.PAINTSHOP;
+                break;
+            case this.GameStages.PAINTSHOP:
+                $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#weldingShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#assemblyStage").attr('class', 'gameStage gameStageActive');
+                $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
+
+                this.activeStage = this.GameStages.ASSEMBLY;
+                break;
+            case this.GameStages.ASSEMBLY:
+                $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#weldingShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#assemblyStage").attr('class', 'gameStage gameStageCompleted');
+                $("#polygonStage").attr('class', 'gameStage gameStageActive');
+
+                this.activeStage = this.GameStages.POLYGON_TESTING;
+                break;
+            case this.GameStages.POLYGON_TESTING:
+                $("#pressShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#weldingShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
+                $("#assemblyStage").attr('class', 'gameStage gameStageCompleted');
+                $("#polygonStage").attr('class', 'gameStage gameStageCompleted');
+
+                //TODO completed handling?
+                this.activeStage = this.GameStages.COMPLETED;
+                break;
+            default:
+                break;
+        }
+        return this.activeStage;
+    }
+
+    enteringStage(gameStage, gameInstance) {
+        console.log("Changing game stage to: " + gameStage);
         switch (gameStage) {
             case this.GameStages.PRESSSHOP:
-                $("#pressShopStage").removeClass("gameStageActive");
-                $("#pressShopStage").addClass("gameStageCompleted");
-
-                $("#weldingShopStage").removeClass("gameStageToExplore");
-                $("#weldingShopStage").addClass("gameStageActive");
-                return this.GameStages.WELDINGSHOP;
-            case this.GameStages.ASSEMBLY:
-                $("#assemblyStage").removeClass("gameStageActive");
-                $("#assemblyStage").addClass("gameStageCompleted");
-
-                $("#polygonStage").removeClass("gameStageToExplore");
-                $("#polygonStage").addClass("gameStageActive");
-                return this.GameStages.POLYGON_TESTING;
-            case this.GameStages.PAINTSHOP:
-
-                $("#paintShopStage").removeClass("gameStageActive");
-                $("#paintShopStage").addClass("gameStageCompleted");
-
-                $("#assemblyStage").removeClass("gameStageToExplore");
-                $("#assemblyStage").addClass("gameStageActive");
-                return this.GameStages.ASSEMBLY;
-            case this.GameStages.POLYGON_TESTING:
-                $("#polygonStage").removeClass("gameStageActive");
-                $("#polygonStage").addClass("gameStageCompleted");
-
-                return this.GameStages.COMPLETED;
+                // new PressShop(gameInstance).start(); //uncomment after creating
+                gameInstance.savePointLeaving();
+                break;
             case this.GameStages.WELDINGSHOP:
-                $("#weldingShopStage").removeClass("gameStageActive");
-                $("#weldingShopStage").addClass("gameStageCompleted");
-
-                $("#paintShopStage").removeClass("gameStageToExplore");
-                $("#paintShopStage").addClass("gameStageActive");
-                return this.GameStages.PAINTSHOP;
+                // new WeldingShop(gameInstance).start();
+                gameInstance.savePointLeaving();
+                break;
+            case this.GameStages.PAINTSHOP:
+                // new PaintShopt(gameInstance).start();
+                gameInstance.savePointLeaving();
+                break;
+            case this.GameStages.ASSEMBLY:
+                // new Assembly(gameInstance).start(); //uncomment after creating
+                gameInstance.savePointLeaving();
+                break;
+            case this.GameStages.POLYGON_TESTING:
+                //TODO completed handling?
+                break;
             default:
                 break;
         }
