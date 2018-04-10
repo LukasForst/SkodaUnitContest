@@ -84,10 +84,14 @@ var Game = function () {
         _classCallCheck(this, Game);
 
         this.player = new _Player2.default();
+
         this.pipes = new _Pipes2.default(gameScene);
-        this.savingPoints = new _Savingpoints2.default(gameScene);
-        this.mode = Mode.WAIT;
         this.onePipeScoreAddition = 10;
+
+        this.savingPoints = new _Savingpoints2.default(gameScene);
+        this.nextLevel = CurrentGameStage.PRESSSHOP;
+
+        this.mode = Mode.WAIT;
         this.start();
     }
 
@@ -163,12 +167,17 @@ var Game = function () {
             this.savingPoints.array = [];
 
             // run the game
-            this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
-            this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
-            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 6000);
+            this.startLoopToCreateElements();
 
             // change mode
             this.mode = Mode.RUN;
+        }
+    }, {
+        key: "startLoopToCreateElements",
+        value: function startLoopToCreateElements() {
+            this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
+            this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
+            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 2000);
         }
     }, {
         key: "gameLoop",
@@ -248,13 +257,62 @@ var Game = function () {
         key: "savePointReached",
         value: function savePointReached() {
             console.log("saving point reached");
-            //TODO
+            $(".animated").addClass('stopped'); // Stop moving of currently existing elements
+            this.stopInvervals(); // Stop creating of new elements
+
+            switch (this.nextLevel) {
+                case CurrentGameStage.PRESSSHOP:
+                    window.location.replace("./stages/stage1.html");
+                    this.nextLevel = CurrentGameStage.WELDINGSHOP;
+                    //TODO start Javascript file handling PRESSHOP
+                    break;
+
+                case CurrentGameStage.WELDINGSHOP:
+                    window.location.replace("./stages/stage2.html");
+                    this.nextLevel = CurrentGameStage.PAINTSHOP;
+                    //TODO start Javascript file handling WELDINGSHOP
+                    break;
+
+                case CurrentGameStage.PAINTSHOP:
+                    window.location.replace("./stages/stage3.html");
+                    this.nextLevel = CurrentGameStage.ASSEMBLY;
+                    //TODO start Javascript file handling PAINTSHOP
+                    break;
+
+                case CurrentGameStage.ASSEMBLY:
+                    window.location.replace("./stages/stage4.html");
+                    //TODO
+                    this.nextLevel = CurrentGameStage.POLYGON_TESTING;
+                    //TODO start Javascript file handling ASSEMBLY
+                    break;
+
+                case CurrentGameStage.POLYGON_TESTING:
+                    window.location.replace("./stages/stage5.html");
+                    //TODO start Javascript file handling PolygonTesting
+                    //TODO end game, we have a kiddo winner!
+                    break;
+            }
+
+            // Go back to properly working Skoddy
+            this.savePointLeaving();
+        }
+    }, {
+        key: "savePointLeaving",
+        value: function savePointLeaving() {
+            // Let already created elements move again
+            $(".stopped").removeClass('stopped');
+
+            // We need to keep the flow of the game (creating new elements :D )
+            this.startLoopToCreateElements();
         }
     }, {
         key: "endGame",
         value: function endGame() {
 
-            // stop animation
+            // Stop creating of new elements
+            this.stopInvervals();
+
+            // stop animation of currently existing elements
             $(".animated").addClass('stopped');
 
             // drop Skoddy to the floor
@@ -270,6 +328,15 @@ var Game = function () {
             // rotate Skoddy
             this.player.el.css({ 'transform': 'translateY(' + spaceToGround + 'px) rotate(90deg)' });
 
+            // change mode
+            this.mode = Mode.DEAD;
+
+            // todo: show alert
+            console.log('Game Over');
+        }
+    }, {
+        key: "stopInvervals",
+        value: function stopInvervals() {
             // stop game loop
             clearInterval(this.gameLoopInterval);
             this.gameLoopInterval = null;
@@ -281,12 +348,6 @@ var Game = function () {
             // stop savingPoints loop
             clearInterval(this.savingPointsLoopInterval);
             this.savingPointsLoopInterval = null;
-
-            // change mode
-            this.mode = Mode.DEAD;
-
-            // todo: show alert
-            console.log('Game Over');
         }
     }]);
 

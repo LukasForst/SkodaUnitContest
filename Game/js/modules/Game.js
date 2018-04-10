@@ -28,10 +28,14 @@ export default class Game {
 
     constructor() {
         this.player = new Player();
+
         this.pipes = new Pipes(gameScene);
-        this.savingPoints = new Savingpoints(gameScene);
-        this.mode = Mode.WAIT;
         this.onePipeScoreAddition = 10;
+
+        this.savingPoints = new Savingpoints(gameScene);
+        this.nextLevel = CurrentGameStage.PRESSSHOP;
+
+        this.mode = Mode.WAIT;
         this.start();
     }
 
@@ -98,12 +102,16 @@ export default class Game {
         this.savingPoints.array = [];
 
         // run the game
-        this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
-        this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
-        this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 6000);
+        this.startLoopToCreateElements();
 
         // change mode
         this.mode = Mode.RUN;
+    }
+
+    startLoopToCreateElements(){
+        this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
+        this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
+        this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 2000);
     }
 
     gameLoop() {
@@ -183,12 +191,60 @@ export default class Game {
 
     savePointReached(){
         console.log("saving point reached");
-        //TODO
+        $(".animated").addClass('stopped');  // Stop moving of currently existing elements
+        this.stopInvervals();   // Stop creating of new elements
+
+        switch (this.nextLevel){
+            case CurrentGameStage.PRESSSHOP:
+                window.location.replace("./stages/stage1.html");
+                this.nextLevel = CurrentGameStage.WELDINGSHOP;
+                //TODO start Javascript file handling PRESSHOP
+                break;
+
+            case CurrentGameStage.WELDINGSHOP:
+                window.location.replace("./stages/stage2.html");
+                this.nextLevel = CurrentGameStage.PAINTSHOP;
+                //TODO start Javascript file handling WELDINGSHOP
+                break;
+
+            case CurrentGameStage.PAINTSHOP:
+                window.location.replace("./stages/stage3.html");
+                this.nextLevel = CurrentGameStage.ASSEMBLY;
+                //TODO start Javascript file handling PAINTSHOP
+                break;
+
+            case CurrentGameStage.ASSEMBLY:
+                window.location.replace("./stages/stage4.html");
+                //TODO
+                this.nextLevel = CurrentGameStage.POLYGON_TESTING;
+                //TODO start Javascript file handling ASSEMBLY
+                break;
+
+            case CurrentGameStage.POLYGON_TESTING:
+                window.location.replace("./stages/stage5.html");
+                //TODO start Javascript file handling PolygonTesting
+                //TODO end game, we have a kiddo winner!
+                break;
+        }
+
+        // Go back to properly working Skoddy
+        this.savePointLeaving();
+    }
+
+    savePointLeaving(){
+        // Let already created elements move again
+        $(".stopped").removeClass('stopped');
+
+        // We need to keep the flow of the game (creating new elements :D )
+        this.startLoopToCreateElements();
     }
 
     endGame() {
 
-        // stop animation
+        // Stop creating of new elements
+        this.stopInvervals();
+
+        // stop animation of currently existing elements
         $(".animated").addClass('stopped');
 
         // drop Skoddy to the floor
@@ -205,6 +261,14 @@ export default class Game {
         this.player.el.css({'transform': 'translateY(' + spaceToGround + 'px) rotate(90deg)'});
 
 
+        // change mode
+        this.mode = Mode.DEAD;
+
+        // todo: show alert
+        console.log('Game Over');
+    }
+
+    stopInvervals(){
         // stop game loop
         clearInterval(this.gameLoopInterval);
         this.gameLoopInterval = null;
@@ -216,15 +280,7 @@ export default class Game {
         // stop savingPoints loop
         clearInterval(this.savingPointsLoopInterval);
         this.savingPointsLoopInterval = null;
-
-        // change mode
-        this.mode = Mode.DEAD;
-
-        // todo: show alert
-        console.log('Game Over');
     }
-
-
 }
 
 
