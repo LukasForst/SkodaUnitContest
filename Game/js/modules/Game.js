@@ -1,5 +1,6 @@
 import Player from "./Player";
 import Pipes from "./Pipes";
+import Savingpoints from "./Savingpoints";
 
 const
     gameScene = $('.game__scene'),
@@ -10,7 +11,8 @@ const
         WAIT: 0,
         RUN: 1,
         RETRY: 2,
-        DEAD: 3
+        DEAD: 3,
+        SAVING: 4
     }),
 
     CurrentGameStage = Object.freeze({
@@ -23,9 +25,11 @@ const
 
 export default class Game {
 
+
     constructor() {
         this.player = new Player();
         this.pipes = new Pipes(gameScene);
+        this.savingPoints = new Savingpoints(gameScene);
         this.mode = Mode.WAIT;
         this.onePipeScoreAddition = 10;
         this.start();
@@ -60,9 +64,15 @@ export default class Game {
             case Mode.DEAD:
                 // hid the player and then run from default position
                 // this.player.el.fadeOut(() => {
-                //     this.runGame();
                 // });
+                console.log("Starting the game");
                 this.runGame();
+                //     this.runGame();
+                break;
+            case Mode.SAVING:
+                //TODO something
+                console.log("Saving");
+                this.mode = Mode.RUN; //temporary, feel free to change
                 break;
             default:
                 return;
@@ -83,9 +93,14 @@ export default class Game {
         $(".pipe").remove();
         this.pipes.array = [];
 
+        // clear out all the saving points if there are any
+        $(".savingpoint").remove();
+        this.savingPoints.array = [];
+
         // run the game
         this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
         this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
+        this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 6000);
 
         // change mode
         this.mode = Mode.RUN;
@@ -107,34 +122,55 @@ export default class Game {
         if (this.player.top <= 0)
             this.player.top = 0;
 
-        // we can't go any further without a pipe
-        if (this.pipes.array[0] == null)
-            return;
+        // Let's check the closest pipe, if there is any
+        if (this.pipes.array[0] != null) {
 
-        let nextPipe = this.pipes.array[0],
-            nextPipeUpper = nextPipe.children(".pipe_upper");
+            let nextPipe = this.pipes.array[0],
+                nextPipeUpper = nextPipe.children(".pipe_upper");
 
-        let pipeTop = nextPipeUpper.height();
-        let pipeLeft = nextPipeUpper.offset().left - 2;
-        let pipeRight = pipeLeft + this.pipes.pipeWidth;
-        let pipeBottom = pipeTop + this.pipes.pipeHeight;
+            let pipeTop = nextPipeUpper.height();
+            let pipeLeft = nextPipeUpper.offset().left - 2;
+            let pipeRight = pipeLeft + this.pipes.pipeWidth;
+            let pipeBottom = pipeTop + this.pipes.pipeHeight;
 
-        // inside pipe
-        if (this.player.right > pipeLeft) {
-            if (this.player.top > pipeTop && this.player.top + this.player.height < pipeBottom) {
-                // we passed
-            } else {
-                // we touched the pipe
-                this.endGame();
-                return;
+            // inside pipe
+            if (this.player.right > pipeLeft) {
+                if (this.player.top > pipeTop && this.player.top + this.player.height < pipeBottom) {
+                    // we passed
+                } else {
+                    // we touched the pipe
+                    this.endGame();
+                    return;
+                }
+            }
+
+            // have we passed the pipe?
+            if (this.player.left > pipeRight) {
+                // yes, remove it
+                this.pipes.array.splice(0, 1);
+            }
+
+            // have we passed the pipe?
+            if (this.player.left > pipeRight) {
+                // yes, remove it
+                this.pipes.array.splice(0, 1);
+                this.updateScore();
             }
         }
 
-        // have we passed the pipe?
-        if (this.player.left > pipeRight) {
-            // yes, remove it
-            this.pipes.array.splice(0, 1);
-            this.updateScore();
+
+        // Let's check the closest saving point, if there is any
+        if(this.savingPoints.array[0] != null){
+            let nextSavingPoint = this.savingPoints.array[0];
+            let pointLeft = nextSavingPoint.offset().left - 2;
+
+
+            // We hit the saving point
+            if(this.player.right > pointLeft){
+
+                this.savingPoints.array.splice(0, 1); //We do not already need to check this saving point
+                this.savePointReached();
+            }
         }
     }
 
@@ -143,6 +179,11 @@ export default class Game {
         this.currentScroe += this.onePipeScoreAddition;
         console.log("New score " + this.currentScroe);
         $("#scoreStats").html('<h1>Your current score: ' + this.currentScroe +'</h1>');
+    }
+
+    savePointReached(){
+        console.log("saving point reached");
+        //TODO
     }
 
     endGame() {
@@ -171,6 +212,10 @@ export default class Game {
         // stop pipe loop
         clearInterval(this.pipeLoopInterval);
         this.pipeLoopInterval = null;
+
+        // stop savingPoints loop
+        clearInterval(this.savingPointsLoopInterval);
+        this.savingPointsLoopInterval = null;
 
         // change mode
         this.mode = Mode.DEAD;

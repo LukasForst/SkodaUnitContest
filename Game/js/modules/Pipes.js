@@ -23,7 +23,7 @@ export default class Pipes {
             topHeight = Math.floor((Math.random() * constraint) + padding), // add lower padding
             bottomHeight = (this.gameSceneH - this.pipeHeight) - topHeight,
             newPipe =
-                $('<div class="pipe animated">' +
+                $('<div class="pipe animated">'  +
                 '<div class="pipe_upper" style="height: ' + topHeight + 'px;"></div>' +
                 '<div class="pipe_lower" style="height: ' + bottomHeight + 'px;"></div>' +
                 '</div>');

@@ -11,5 +11,9 @@
     "grunt-cli": "^1.2.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0"
+  },
+  "dependencies": {
+    "grunt-sass": "^2.1.0",
+    "node-sass": "^4.8.3"
   }
 }

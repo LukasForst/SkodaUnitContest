@@ -2,6 +2,29 @@
 
 	&__auto {
 
+		background: none;
+		-webkit-background-size: contain !important;
+		background-size: contain !important;
+
+		width: 848px;
+		height: 300px;
+
+		margin: 0 auto 80px;
+
+		-webkit-transition: background .5s ease;
+
+		&.default {
+			background: url('../../img/auto/rapid-default.png') no-repeat;
+			opacity: .3;
+		}
+
+		&.red {
+			background: url('../../img/auto/rapid-red.png') no-repeat;
+		}
+
+		&.blue {
+			background: url('../../img/auto/rapid-blue.png') no-repeat;
+		}
 	}
 
 	&__colors {
