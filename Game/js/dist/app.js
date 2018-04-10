@@ -70,16 +70,31 @@ var Assembly = function () {
         key: "start",
         value: function start() {
             console.log("Entering assembly scene");
+            this.setElementsClickable();
+        }
 
-            //TODO all functionality
+        // <div class="stage4__auto"></div>
+        //
+        //         <div id="stage4volant" class="stage4__auto-volant"></div>
 
+    }, {
+        key: "setElementsClickable",
+        value: function setElementsClickable() {
+            var _this = this;
 
-            console.log("Leaving assembly scene");
-            this.showSkoddyScene(); // go back to main scene
+            $("#stage4volant").click(function (ev) {
+
+                $(".stage4__auto").addClass('complete');
+                $(".stage4__auto").removeClass('stage4__auto');
+
+                $("#stage2kolo1").addClass("hidden");
+                _this.showSkoddyScene();
+            });
         }
     }, {
         key: "showSkoddyScene",
         value: function showSkoddyScene() {
+            console.log("Leaving assembly scene");
             $(".assembly").addClass('hidden');
             $(".main_game").removeClass('hidden');
 

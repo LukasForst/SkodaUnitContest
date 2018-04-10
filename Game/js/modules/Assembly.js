@@ -15,20 +15,33 @@ export default class Assembly {
 
     start(){
         console.log("Entering assembly scene");
+        this.setElementsClickable();
+    }
 
+    // <div class="stage4__auto"></div>
+    //
+    //         <div id="stage4volant" class="stage4__auto-volant"></div>
 
-        //TODO all functionality
+    setElementsClickable() {
 
+        $("#stage4volant").click((ev) => {
 
-        console.log("Leaving assembly scene");
-        this.showSkoddyScene(); // go back to main scene
+            $(".stage4__auto").addClass('complete');
+            $(".stage4__auto").removeClass('stage4__auto');
+
+            $("#stage2kolo1").addClass("hidden");
+            this.showSkoddyScene();
+        });
+
     }
 
     showSkoddyScene(){
+        console.log("Leaving assembly scene");
         $(".assembly").addClass('hidden');
         $(".main_game").removeClass('hidden');
 
         this.gameInstance.savePointLeaving();
     }
+
 }
 
