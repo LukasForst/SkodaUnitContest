@@ -40,7 +40,14 @@
 			flex-direction: row;
 			//align-items: center;
 			justify-content: center;
-			margin: 10px;
+			padding: 10px;
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+
+			& div {
+				margin: 10px;
+			}
 		}
 
 		&-kolo {
