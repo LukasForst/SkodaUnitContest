@@ -27,6 +27,7 @@ export default class GameStageHandler {
     resetGame() {
         this.activeStage = this.GameStages.START;
         this.setNextActiveStage(this.activeStage);
+        this.activeStage = this.GameStages.PRESSSHOP;
     }
 
     nextStage(gameInstance) {
@@ -35,8 +36,10 @@ export default class GameStageHandler {
 
     leavingStage(gameInstance) {
         this.setNextActiveStage(this.activeStage);
+
         this.dialogStageInfoTextBox.text("You are back in game fella!!");
         this.dialogStageInfoBox.removeClass("hidden");
+        this.dialogButton.unbind();
         this.dialogButton.click(() => {
             this.dialogStageInfoBox.addClass("hidden");
             gameInstance.resumeGame();
@@ -60,7 +63,6 @@ export default class GameStageHandler {
                 $("#paintShopStage").attr('class', 'gameStage gameStageToExplore');
                 $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
                 $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
-
                 this.activeStage = this.GameStages.WELDINGSHOP;
                 break;
             case this.GameStages.WELDINGSHOP:
@@ -69,7 +71,6 @@ export default class GameStageHandler {
                 $("#paintShopStage").attr('class', 'gameStage gameStageActive');
                 $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
                 $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
-
                 this.activeStage = this.GameStages.PAINTSHOP;
                 break;
             case this.GameStages.PAINTSHOP:
@@ -78,7 +79,6 @@ export default class GameStageHandler {
                 $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
                 $("#assemblyStage").attr('class', 'gameStage gameStageActive');
                 $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
-
                 this.activeStage = this.GameStages.ASSEMBLY;
                 break;
             case this.GameStages.ASSEMBLY:
@@ -87,7 +87,6 @@ export default class GameStageHandler {
                 $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
                 $("#assemblyStage").attr('class', 'gameStage gameStageCompleted');
                 $("#polygonStage").attr('class', 'gameStage gameStageActive');
-
                 this.activeStage = this.GameStages.POLYGON_TESTING;
                 break;
             case this.GameStages.POLYGON_TESTING:
@@ -96,9 +95,9 @@ export default class GameStageHandler {
                 $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
                 $("#assemblyStage").attr('class', 'gameStage gameStageCompleted');
                 $("#polygonStage").attr('class', 'gameStage gameStageCompleted');
+                this.activeStage = this.GameStages.COMPLETED;
 
                 //TODO completed handling?
-                this.activeStage = this.GameStages.COMPLETED;
                 break;
             default:
                 break;
@@ -107,29 +106,33 @@ export default class GameStageHandler {
     }
 
     enteringStage(gameStage, gameInstance) {
-        console.log("Changing game stage to: " + gameStage);
         switch (gameStage) {
             case this.GameStages.PRESSSHOP:
                 this.dialogStageInfoTextBox.text("Now you are going to the Press Shop phase!");
                 this.dialogStageInfoBox.removeClass("hidden");
+                this.dialogButton.unbind();
                 this.dialogButton.click(() => {
                     this.dialogStageInfoBox.addClass("hidden");
-                    new PressShop(gameInstance).start();
+                    // new PressShop(gameInstance).start();
+                    gameInstance.savePointLeaving();
                 });
                 break;
 
             case this.GameStages.WELDINGSHOP:
                 this.dialogStageInfoTextBox.text("Now you are going to the Welding Shop phase!");
                 this.dialogStageInfoBox.removeClass("hidden");
+                this.dialogButton.unbind();
                 this.dialogButton.click(() => {
                     this.dialogStageInfoBox.addClass("hidden");
-                    new WeldingShop(gameInstance).start();
+                    // new WeldingShop(gameInstance).start();
+                    gameInstance.savePointLeaving();
                 });
                 break;
 
             case this.GameStages.PAINTSHOP:
                 this.dialogStageInfoTextBox.text("Now you are going to the Paint Shop phase!");
                 this.dialogStageInfoBox.removeClass("hidden");
+                this.dialogButton.unbind();
                 this.dialogButton.click(() => {
                     this.dialogStageInfoBox.addClass("hidden");
                     // new PaintShopt(gameInstance).start();
@@ -141,6 +144,7 @@ export default class GameStageHandler {
                 // new Assembly(gameInstance).start(); //uncomment after creating
                 this.dialogStageInfoTextBox.text("Now you are going to the Assembly phase!");
                 this.dialogStageInfoBox.removeClass("hidden");
+                this.dialogButton.unbind();
                 this.dialogButton.click(() => {
                     this.dialogStageInfoBox.addClass("hidden");
                     // new Assembly(gameInstance).start(); //uncomment after creating

@@ -5,6 +5,10 @@ var _Game = require('./modules/Game');
 
 var _Game2 = _interopRequireDefault(_Game);
 
+var _Cutting = require('./modules/Cutting');
+
+var _Cutting2 = _interopRequireDefault(_Cutting);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,6 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
         new _Game2.default();
     }
 
+    if ($('.stage1__plech').length) {
+        new _Cutting2.default();
+        console.log('tu');
+    }
     // Stage 3: changing colors
 
     var auto = $('.stage3__auto'),
@@ -413,7 +421,7 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./GameStageHandler":4,"./Pipes":5,"./Player":6,"./Savingpoints":8}],4:[function(require,module,exports){
+},{"./GameStageHandler":4,"./Pipes":5,"./Player":6,"./Savingpoints":8,"./StageDialogHandler":9}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -468,6 +476,7 @@ var GameStageHandler = function () {
         value: function resetGame() {
             this.activeStage = this.GameStages.START;
             this.setNextActiveStage(this.activeStage);
+            this.activeStage = this.GameStages.PRESSSHOP;
         }
     }, {
         key: "nextStage",
@@ -480,8 +489,10 @@ var GameStageHandler = function () {
             var _this = this;
 
             this.setNextActiveStage(this.activeStage);
+
             this.dialogStageInfoTextBox.text("You are back in game fella!!");
             this.dialogStageInfoBox.removeClass("hidden");
+            this.dialogButton.unbind();
             this.dialogButton.click(function () {
                 _this.dialogStageInfoBox.addClass("hidden");
                 gameInstance.resumeGame();
@@ -506,7 +517,6 @@ var GameStageHandler = function () {
                     $("#paintShopStage").attr('class', 'gameStage gameStageToExplore');
                     $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
                     $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
-
                     this.activeStage = this.GameStages.WELDINGSHOP;
                     break;
                 case this.GameStages.WELDINGSHOP:
@@ -515,7 +525,6 @@ var GameStageHandler = function () {
                     $("#paintShopStage").attr('class', 'gameStage gameStageActive');
                     $("#assemblyStage").attr('class', 'gameStage gameStageToExplore');
                     $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
-
                     this.activeStage = this.GameStages.PAINTSHOP;
                     break;
                 case this.GameStages.PAINTSHOP:
@@ -524,7 +533,6 @@ var GameStageHandler = function () {
                     $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
                     $("#assemblyStage").attr('class', 'gameStage gameStageActive');
                     $("#polygonStage").attr('class', 'gameStage gameStageToExplore');
-
                     this.activeStage = this.GameStages.ASSEMBLY;
                     break;
                 case this.GameStages.ASSEMBLY:
@@ -533,7 +541,6 @@ var GameStageHandler = function () {
                     $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
                     $("#assemblyStage").attr('class', 'gameStage gameStageCompleted');
                     $("#polygonStage").attr('class', 'gameStage gameStageActive');
-
                     this.activeStage = this.GameStages.POLYGON_TESTING;
                     break;
                 case this.GameStages.POLYGON_TESTING:
@@ -542,9 +549,9 @@ var GameStageHandler = function () {
                     $("#paintShopStage").attr('class', 'gameStage gameStageCompleted');
                     $("#assemblyStage").attr('class', 'gameStage gameStageCompleted');
                     $("#polygonStage").attr('class', 'gameStage gameStageCompleted');
+                    this.activeStage = this.GameStages.COMPLETED;
 
                     //TODO completed handling?
-                    this.activeStage = this.GameStages.COMPLETED;
                     break;
                 default:
                     break;
@@ -556,29 +563,33 @@ var GameStageHandler = function () {
         value: function enteringStage(gameStage, gameInstance) {
             var _this2 = this;
 
-            console.log("Changing game stage to: " + gameStage);
             switch (gameStage) {
                 case this.GameStages.PRESSSHOP:
                     this.dialogStageInfoTextBox.text("Now you are going to the Press Shop phase!");
                     this.dialogStageInfoBox.removeClass("hidden");
+                    this.dialogButton.unbind();
                     this.dialogButton.click(function () {
                         _this2.dialogStageInfoBox.addClass("hidden");
-                        new _PressShop2.default(gameInstance).start();
+                        // new PressShop(gameInstance).start();
+                        gameInstance.savePointLeaving();
                     });
                     break;
 
                 case this.GameStages.WELDINGSHOP:
                     this.dialogStageInfoTextBox.text("Now you are going to the Welding Shop phase!");
                     this.dialogStageInfoBox.removeClass("hidden");
+                    this.dialogButton.unbind();
                     this.dialogButton.click(function () {
                         _this2.dialogStageInfoBox.addClass("hidden");
-                        new _WeldingShop2.default(gameInstance).start();
+                        // new WeldingShop(gameInstance).start();
+                        gameInstance.savePointLeaving();
                     });
                     break;
 
                 case this.GameStages.PAINTSHOP:
                     this.dialogStageInfoTextBox.text("Now you are going to the Paint Shop phase!");
                     this.dialogStageInfoBox.removeClass("hidden");
+                    this.dialogButton.unbind();
                     this.dialogButton.click(function () {
                         _this2.dialogStageInfoBox.addClass("hidden");
                         // new PaintShopt(gameInstance).start();
@@ -590,6 +601,7 @@ var GameStageHandler = function () {
                     // new Assembly(gameInstance).start(); //uncomment after creating
                     this.dialogStageInfoTextBox.text("Now you are going to the Assembly phase!");
                     this.dialogStageInfoBox.removeClass("hidden");
+                    this.dialogButton.unbind();
                     this.dialogButton.click(function () {
                         _this2.dialogStageInfoBox.addClass("hidden");
                         // new Assembly(gameInstance).start(); //uncomment after creating
@@ -612,7 +624,7 @@ var GameStageHandler = function () {
 
 exports.default = GameStageHandler;
 
-},{"./PressShop":6,"./WeldingShop":8}],4:[function(require,module,exports){
+},{"./PressShop":7,"./StageDialogHandler":9,"./WeldingShop":10}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -873,7 +885,7 @@ var StageDialogHandler = function () {
 
 exports.default = StageDialogHandler;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
