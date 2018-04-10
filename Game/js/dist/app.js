@@ -45,7 +45,8 @@ Mode = Object.freeze({
     WAIT: 0,
     RUN: 1,
     RETRY: 2,
-    DEAD: 3
+    DEAD: 3,
+    SAVING: 4
 }),
     CurrentGameStage = Object.freeze({
     PRESSSHOP: 0,
@@ -141,7 +142,7 @@ var Game = function () {
             // run the game
             this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
             this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
-            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 1000);
+            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 6000);
 
             // change mode
             this.mode = Mode.RUN;
@@ -185,11 +186,31 @@ var Game = function () {
                     }
                 }
 
-            // have we passed the pipe?
-            if (this.player.left > pipeRight) {
-                // yes, remove it
-                this.pipes.array.splice(0, 1);
-                this.updateScore();
+                // have we passed the pipe?
+                if (this.player.left > pipeRight) {
+                    // yes, remove it
+                    this.pipes.array.splice(0, 1);
+                }
+
+                // have we passed the pipe?
+                if (this.player.left > pipeRight) {
+                    // yes, remove it
+                    this.pipes.array.splice(0, 1);
+                    this.updateScore();
+                }
+            }
+
+            // Let's check the closest saving point, if there is any
+            if (this.savingPoints.array[0] != null) {
+                var nextSavingPoint = this.savingPoints.array[0];
+                var pointLeft = nextSavingPoint.offset().left - 2;
+
+                // We hit the saving point
+                if (this.player.right > pointLeft) {
+
+                    this.savingPoints.array.splice(0, 1); //We do not already need to check this saving point
+                    this.savePointReached();
+                }
             }
         }
     }, {
@@ -394,7 +415,7 @@ var Savingpoints = function () {
             topHeight = Math.floor(Math.random() * constraint + padding),
                 // add lower padding
             bottomHeight = this.gameSceneH - this.pointHeight - topHeight,
-                newPoint = $('<div class="savingpoint animated"> </div>');
+                newPoint = $('<div class="savingpoint animated"></div>');
 
             this.gameScene.append(newPoint);
             this.array.push(newPoint);

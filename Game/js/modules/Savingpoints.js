@@ -23,7 +23,7 @@ export default class Savingpoints {
             topHeight = Math.floor((Math.random() * constraint) + padding), // add lower padding
             bottomHeight = (this.gameSceneH - this.pointHeight) - topHeight,
             newPoint =
-                $('<div class="savingpoint animated"> </div>');
+                $('<div class="savingpoint animated"></div>');
 
         this.gameScene.append(newPoint);
         this.array.push(newPoint);

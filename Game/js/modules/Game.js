@@ -13,7 +13,6 @@ const
         RETRY: 2,
         DEAD: 3,
         SAVING: 4
-        DEAD: 3
     }),
 
     CurrentGameStage = Object.freeze({
@@ -25,6 +24,7 @@ const
     });
 
 export default class Game {
+
 
     constructor() {
         this.player = new Player();
@@ -100,7 +100,7 @@ export default class Game {
         // run the game
         this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
         this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
-        this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 1000);
+        this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 6000);
 
         // change mode
         this.mode = Mode.RUN;
@@ -149,21 +149,14 @@ export default class Game {
                 // yes, remove it
                 this.pipes.array.splice(0, 1);
             }
-        }
-        // have we passed the pipe?
-        if (this.player.left > pipeRight) {
-            // yes, remove it
-            this.pipes.array.splice(0, 1);
-            this.updateScore();
-        }
-    }
 
-    updateScore(){
-        console.log("Updating score");
-        this.currentScroe += this.onePipeScoreAddition;
-        console.log("New score " + this.currentScroe);
-        $("#scoreStats").html('<h1>Your current score: ' + this.currentScroe +'</h1>');
-    }
+            // have we passed the pipe?
+            if (this.player.left > pipeRight) {
+                // yes, remove it
+                this.pipes.array.splice(0, 1);
+                this.updateScore();
+            }
+        }
 
 
         // Let's check the closest saving point, if there is any
@@ -179,6 +172,13 @@ export default class Game {
                 this.savePointReached();
             }
         }
+    }
+
+    updateScore(){
+        console.log("Updating score");
+        this.currentScroe += this.onePipeScoreAddition;
+        console.log("New score " + this.currentScroe);
+        $("#scoreStats").html('<h1>Your current score: ' + this.currentScroe +'</h1>');
     }
 
     savePointReached(){
