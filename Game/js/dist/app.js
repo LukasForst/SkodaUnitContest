@@ -5,6 +5,10 @@ var _Game = require('./modules/Game');
 
 var _Game2 = _interopRequireDefault(_Game);
 
+var _Cutting = require('./modules/Cutting');
+
+var _Cutting2 = _interopRequireDefault(_Cutting);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,6 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
         new _Game2.default();
     }
 
+    if ($('.stage1__plech').length) {
+        new _Cutting2.default();
+        console.log('tu');
+    }
     // Stage 3: changing colors
 
     var auto = $('.stage3__auto'),
@@ -34,7 +42,63 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-},{"./modules/Game":2}],2:[function(require,module,exports){
+},{"./modules/Cutting":2,"./modules/Game":3}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Cutting = function () {
+    // door_cut;
+    // pressButton;
+    // door_line;
+    // metal_sheet;
+
+    function Cutting() {
+        _classCallCheck(this, Cutting);
+
+        this.door_cut = $('.door-cut');
+        // this.pressButton;
+        // this.door_line;
+        // this.metal_sheet;
+
+        this.metal_sheet = $('.stage1__plech');
+        this.door_line = $('.door-line');
+        this.pressButton = $('#performPress');
+
+        this.init();
+    }
+
+    _createClass(Cutting, [{
+        key: 'init',
+        value: function init() {
+            this.door_line.on('click', function (e) {
+                // $('.stage1__plech').addClass('hidden')
+                this.metal_sheet.addClass('hidden');
+                this.createComponentTab();
+            });
+        }
+    }, {
+        key: 'createComponentTab',
+        value: function createComponentTab() {
+            this.pressButton.removeClass('hidden');
+            this.pressButton.on('click', function (ev) {
+                this.door_cut.removeClass('hidden');
+            });
+        }
+    }]);
+
+    return Cutting;
+}();
+
+exports.default = Cutting;
+
+},{}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -332,7 +396,7 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":6}],3:[function(require,module,exports){
+},{"./GameStageHandler":4,"./Pipes":5,"./Player":6,"./Savingpoints":7}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -479,7 +543,7 @@ var GameStageHandler = function () {
 
 exports.default = GameStageHandler;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -530,7 +594,7 @@ var Pipes = function () {
 
 exports.default = Pipes;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -583,7 +647,7 @@ var Player = function () {
 
 exports.default = Player;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

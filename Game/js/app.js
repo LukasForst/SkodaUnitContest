@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if($('.stage1__plech').length){
         new Cutting();
+        console.log('tu')
     }
     // Stage 3: changing colors
 
