@@ -1,5 +1,6 @@
 import Player from "./Player";
 import Pipes from "./Pipes";
+import GameStageHandler from "./GameStageHandler"
 import Savingpoints from "./Savingpoints";
 
 const
@@ -16,12 +17,14 @@ const
     }),
 
     CurrentGameStage = Object.freeze({
-       PRESSSHOP: 0,
-       WELDINGSHOP: 1,
-       PAINTSHOP: 2,
-       ASSEMBLY: 3,
-       POLYGON_TESTING: 4,
+        PRESSSHOP: 0,
+        WELDINGSHOP: 1,
+        PAINTSHOP: 2,
+        ASSEMBLY: 3,
+        POLYGON_TESTING: 4,
+        DEAD: 3
     });
+
 
 export default class Game {
 
@@ -31,6 +34,9 @@ export default class Game {
 
         this.pipes = new Pipes(gameScene);
         this.onePipeScoreAddition = 10;
+        this.currentScore = -10;
+
+        this.gameStages = new GameStageHandler();
 
         this.savingPoints = new Savingpoints(gameScene);
         this.nextLevel = CurrentGameStage.PRESSSHOP;
@@ -84,14 +90,15 @@ export default class Game {
     }
 
     runGame() {
-
         // set defaults
+        this.gameStages.resetGame();
         this.player.speed = 0;
         this.player.top = 180;
         this.player.rotation = 0;
         this.player.el.css({'transform': 'none'});
         this.player.update();
-        this.currentScroe = 0;
+        this.currentScore = -10;
+        this.updateScore();
 
         // clear out all the pipes if there are any
         $(".pipe").remove();
@@ -108,7 +115,7 @@ export default class Game {
         this.mode = Mode.RUN;
     }
 
-    startLoopToCreateElements(){
+    startLoopToCreateElements() {
         this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
         this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
         this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 2000);
@@ -168,13 +175,13 @@ export default class Game {
 
 
         // Let's check the closest saving point, if there is any
-        if(this.savingPoints.array[0] != null){
+        if (this.savingPoints.array[0] != null) {
             let nextSavingPoint = this.savingPoints.array[0];
             let pointLeft = nextSavingPoint.offset().left - 2;
 
 
             // We hit the saving point
-            if(this.player.right > pointLeft){
+            if (this.player.right > pointLeft) {
 
                 this.savingPoints.array.splice(0, 1); //We do not already need to check this saving point
                 this.savePointReached();
@@ -182,60 +189,27 @@ export default class Game {
         }
     }
 
-    updateScore(){
+    updateScore() {
         console.log("Updating score");
-        this.currentScroe += this.onePipeScoreAddition;
-        console.log("New score " + this.currentScroe);
-        $("#scoreStats").html('<h1>Your current score: ' + this.currentScroe +'</h1>');
+        this.currentScore += this.onePipeScoreAddition;
+        console.log("New score " + this.currentScore);
+        $("#scoreStats").html('<h1>Your current score: ' + this.currentScore + '</h1>');
     }
 
-    savePointReached(){
+    savePointReached() {
         console.log("saving point reached");
         $(".animated").addClass('stopped');  // Stop moving of currently existing elements
         this.stopInvervals();   // Stop creating of new elements
-
-        switch (this.nextLevel){
-            case CurrentGameStage.PRESSSHOP:
-                window.location.replace("./stages/stage1.html");
-                this.nextLevel = CurrentGameStage.WELDINGSHOP;
-                //TODO start Javascript file handling PRESSHOP
-                break;
-
-            case CurrentGameStage.WELDINGSHOP:
-                window.location.replace("./stages/stage2.html");
-                this.nextLevel = CurrentGameStage.PAINTSHOP;
-                //TODO start Javascript file handling WELDINGSHOP
-                break;
-
-            case CurrentGameStage.PAINTSHOP:
-                window.location.replace("./stages/stage3.html");
-                this.nextLevel = CurrentGameStage.ASSEMBLY;
-                //TODO start Javascript file handling PAINTSHOP
-                break;
-
-            case CurrentGameStage.ASSEMBLY:
-                window.location.replace("./stages/stage4.html");
-                //TODO
-                this.nextLevel = CurrentGameStage.POLYGON_TESTING;
-                //TODO start Javascript file handling ASSEMBLY
-                break;
-
-            case CurrentGameStage.POLYGON_TESTING:
-                window.location.replace("./stages/stage5.html");
-                //TODO start Javascript file handling PolygonTesting
-                //TODO end game, we have a kiddo winner!
-                break;
-        }
-
-        // Go back to properly working Skoddy
-        this.savePointLeaving();
+        this.gameStages.nextStage(this); //this will call next stage
     }
 
-    savePointLeaving(){
+    savePointLeaving() {
+        console.log("Leaving saving point.");
         // Let already created elements move again
         $(".stopped").removeClass('stopped');
 
         // We need to keep the flow of the game (creating new elements :D )
+        this.gameStages.leavingStage();
         this.startLoopToCreateElements();
     }
 
@@ -268,7 +242,7 @@ export default class Game {
         console.log('Game Over');
     }
 
-    stopInvervals(){
+    stopInvervals() {
         // stop game loop
         clearInterval(this.gameLoopInterval);
         this.gameLoopInterval = null;
@@ -282,5 +256,4 @@ export default class Game {
         this.savingPointsLoopInterval = null;
     }
 }
-
 
