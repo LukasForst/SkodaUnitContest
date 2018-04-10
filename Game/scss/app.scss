@@ -1,8 +1,18 @@
+$color1:	red;
+$color2:	blue;
+
 @import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700');
 @import 'game';
 @import 'player';
 @import 'pipe';
-@import 'gameStages';
+@import 'savingpoint';
+
+@import "stage1";
+@import "stage2";
+@import "stage3";
+@import "stage4";
+@import "stage5";
+
 
 body, html {
 	width: 100%;
