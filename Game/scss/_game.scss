@@ -1,5 +1,5 @@
 @import "animation";
-
+@import "colors";
 .game {
 
 	$statusBarHeight: 250px;
@@ -20,7 +20,7 @@
 		height: $statusBarHeight;
 		padding: 1em 2em;
 
-		background: #00800d;
+		background: $color-skoda;
 		border-top: 1px solid white;
 	}
 

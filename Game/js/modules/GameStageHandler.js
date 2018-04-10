@@ -1,3 +1,5 @@
+import StageDialogHandler from "./StageDialogHandler";
+
 export default class GameStageHandler {
     constructor() {
         this.GameStages = Object.freeze({
@@ -12,6 +14,7 @@ export default class GameStageHandler {
 
         this.activeStage = this.GameStages.PRESSSHOP;
         this.lastSavedStage = this.GameStages.PRESSSHOP;
+        this.stageDialog = new StageDialogHandler();
     }
 
     //TODO do it more smart, load last saved game

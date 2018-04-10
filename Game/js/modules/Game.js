@@ -2,6 +2,7 @@ import Player from "./Player";
 import Pipes from "./Pipes";
 import GameStageHandler from "./GameStageHandler"
 import Savingpoints from "./Savingpoints";
+import StageDialogHandler from "./StageDialogHandler";
 
 const
     gameScene = $('.game__scene'),
@@ -42,7 +43,9 @@ export default class Game {
         this.nextLevel = CurrentGameStage.PRESSSHOP;
 
         this.mode = Mode.WAIT;
-        this.start();
+
+        this.stageDialog = new StageDialogHandler();
+        this.stageDialog.showText("Hello kiddo!\nPlease click on button to launch our mega super game!", this);
     }
 
     start() {

@@ -59,6 +59,10 @@ var _Savingpoints = require("./Savingpoints");
 
 var _Savingpoints2 = _interopRequireDefault(_Savingpoints);
 
+var _StageDialogHandler = require("./StageDialogHandler");
+
+var _StageDialogHandler2 = _interopRequireDefault(_StageDialogHandler);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -100,7 +104,9 @@ var Game = function () {
         this.nextLevel = CurrentGameStage.PRESSSHOP;
 
         this.mode = Mode.WAIT;
-        this.start();
+
+        this.stageDialog = new _StageDialogHandler2.default();
+        this.stageDialog.showText("Hello kiddo!\nPlease click on button to launch our mega super game!", this);
     }
 
     _createClass(Game, [{
@@ -332,14 +338,20 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":6}],3:[function(require,module,exports){
-'use strict';
+},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":6,"./StageDialogHandler":7}],3:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _StageDialogHandler = require("./StageDialogHandler");
+
+var _StageDialogHandler2 = _interopRequireDefault(_StageDialogHandler);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -359,29 +371,30 @@ var GameStageHandler = function () {
 
         this.activeStage = this.GameStages.PRESSSHOP;
         this.lastSavedStage = this.GameStages.PRESSSHOP;
+        this.stageDialog = new _StageDialogHandler2.default();
     }
 
     //TODO do it more smart, load last saved game
 
 
     _createClass(GameStageHandler, [{
-        key: 'resetGame',
+        key: "resetGame",
         value: function resetGame() {
             this.activeStage = this.GameStages.START;
             this.setNextActiveStage(this.activeStage);
         }
     }, {
-        key: 'nextStage',
+        key: "nextStage",
         value: function nextStage(gameInstance) {
             return this.enteringStage(this.activeStage, gameInstance);
         }
     }, {
-        key: 'leavingStage',
+        key: "leavingStage",
         value: function leavingStage() {
             return this.setNextActiveStage(this.activeStage);
         }
     }, {
-        key: 'setNextActiveStage',
+        key: "setNextActiveStage",
         value: function setNextActiveStage(currentActiveStage) {
             switch (currentActiveStage) {
                 case this.GameStages.START:
@@ -445,7 +458,7 @@ var GameStageHandler = function () {
             return this.activeStage;
         }
     }, {
-        key: 'enteringStage',
+        key: "enteringStage",
         value: function enteringStage(gameStage, gameInstance) {
             console.log("Changing game stage to: " + gameStage);
             switch (gameStage) {
@@ -479,7 +492,7 @@ var GameStageHandler = function () {
 
 exports.default = GameStageHandler;
 
-},{}],4:[function(require,module,exports){
+},{"./StageDialogHandler":7}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -633,5 +646,44 @@ var Savingpoints = function () {
 }();
 
 exports.default = Savingpoints;
+
+},{}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var StageDialogHandler = function () {
+    function StageDialogHandler() {
+        _classCallCheck(this, StageDialogHandler);
+
+        this.button = $(".stageButton");
+        this.stageInfoBox = $(".stageInfoBox");
+        this.stageInfoTextBox = $(".stageInfoTextBox");
+    }
+
+    _createClass(StageDialogHandler, [{
+        key: "showText",
+        value: function showText(textToShow, nextStage) {
+            var _this = this;
+
+            this.stageInfoTextBox.text(textToShow);
+            this.button.click(function () {
+                _this.stageInfoBox.addClass("hidden");
+                nextStage.start();
+            });
+            this.stageInfoBox.removeClass("hidden");
+        }
+    }]);
+
+    return StageDialogHandler;
+}();
+
+exports.default = StageDialogHandler;
 
 },{}]},{},[1]);
