@@ -698,11 +698,23 @@ var PressShop = function () {
         value: function start() {
             console.log("Entering press shop scene");
 
-            //TODO all functionality (Mato, pro tebe)
+            $('.door-line').on('click', function (e) {
+                $('.stage1__plech').addClass('hidden');
+                $('.door-line').removeClass('hidden');
+                $('.door-cut').removeClass('hidden');
+                $('#performPress').css("display", "inline-block");
+            });
 
+            $('#performPress').on('click', function (e) {
+                $('.door-cut').addClass('pressed');
+            });
+            var _this = this;
+            $('.door-cut').on('click', function (e) {
+                console.log(this);
+                _this.showSkoddyScene();
+            }).bind(this);
+            // here goes change to next stage
 
-            console.log("Leaving press shop scene");
-            this.showSkoddyScene(); // go back to main scene
         }
     }, {
         key: "showSkoddyScene",
