@@ -1,14 +1,37 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var _Game = require("./modules/Game");
+var _Game = require('./modules/Game');
 
 var _Game2 = _interopRequireDefault(_Game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener("DOMContentLoaded", function () {
-  return new _Game2.default();
+
+    // Start game if there is game__scene
+
+    if ($('.game__scene').length) {
+        new _Game2.default();
+    }
+
+    // Stage 3: changing colors
+
+    var auto = $('.stage3__auto'),
+        redBtn = $('.stage3__colors-1'),
+        blueBtn = $('.stage3__colors-2');
+
+    redBtn.on('click', function () {
+        auto.removeClass('default');
+        auto.removeClass('blue');
+        auto.addClass('red');
+    });
+
+    blueBtn.on('click', function () {
+        auto.removeClass('default');
+        auto.removeClass('red');
+        auto.addClass('blue');
+    });
 });
 
 },{"./modules/Game":2}],2:[function(require,module,exports){
