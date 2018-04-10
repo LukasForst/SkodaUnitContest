@@ -2,6 +2,7 @@ import Player from "./Player";
 import Pipes from "./Pipes";
 import GameStageHandler from "./GameStageHandler"
 import Savingpoints from "./Savingpoints";
+import StageDialogHandler from "./StageDialogHandler";
 
 const
     gameScene = $('.game__scene'),
@@ -42,7 +43,9 @@ export default class Game {
         this.nextLevel = CurrentGameStage.PRESSSHOP;
 
         this.mode = Mode.WAIT;
-        this.start();
+
+        this.stageDialog = new StageDialogHandler();
+        this.stageDialog.showText("Hello kiddo!\nPlease click on button to launch our mega super game!", this);
     }
 
     start() {
@@ -216,13 +219,16 @@ export default class Game {
 
     savePointLeaving() {
         console.log("Leaving saving point.");
+        this.gameStages.leavingStage(this);
+    }
+
+    resumeGame(){
         // Let already created elements move again
+        // We need to keep the flow of the game (creating new elements :D )
+        console.log("Resuming game");
         $(".stopped").removeClass('stopped');
 
         this.addClickableJump(); //make skoddy jump again
-
-        // We need to keep the flow of the game (creating new elements :D )
-        this.gameStages.leavingStage();
         this.startLoopToCreateElements();
     }
 
