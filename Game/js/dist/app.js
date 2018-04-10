@@ -28,6 +28,10 @@ var _Pipes = require("./Pipes");
 
 var _Pipes2 = _interopRequireDefault(_Pipes);
 
+var _Savingpoints = require("./Savingpoints");
+
+var _Savingpoints2 = _interopRequireDefault(_Savingpoints);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,7 +45,8 @@ Mode = Object.freeze({
     WAIT: 0,
     RUN: 1,
     RETRY: 2,
-    DEAD: 3
+    DEAD: 3,
+    SAVING: 4
 });
 
 var Game = function () {
@@ -50,6 +55,7 @@ var Game = function () {
 
         this.player = new _Player2.default();
         this.pipes = new _Pipes2.default(gameScene);
+        this.savingPoints = new _Savingpoints2.default(gameScene);
         this.mode = Mode.WAIT;
         this.start();
     }
@@ -91,9 +97,15 @@ var Game = function () {
                 case Mode.DEAD:
                     // hid the player and then run from default position
                     // this.player.el.fadeOut(() => {
-                    //     this.runGame();
                     // });
+                    console.log("Starting the game");
                     this.runGame();
+                    //     this.runGame();
+                    break;
+                case Mode.SAVING:
+                    //TODO something
+                    console.log("Saving");
+                    this.mode = Mode.RUN; //temporary, feel free to change
                     break;
                 default:
                     return;
@@ -114,9 +126,14 @@ var Game = function () {
             $(".pipe").remove();
             this.pipes.array = [];
 
+            // clear out all the saving points if there are any
+            $(".savingpoint").remove();
+            this.savingPoints.array = [];
+
             // run the game
             this.gameLoopInterval = setInterval(this.gameLoop.bind(this), 1000 / 60);
             this.pipeLoopInterval = setInterval(this.pipes.updatePipes.bind(this.pipes), 5000);
+            this.savingPointsLoopInterval = setInterval(this.savingPoints.updateSavingPoints.bind(this.savingPoints), 1000);
 
             // change mode
             this.mode = Mode.RUN;
@@ -138,33 +155,53 @@ var Game = function () {
             // did we hit the ceiling?
             if (this.player.top <= 0) this.player.top = 0;
 
-            // we can't go any further without a pipe
-            if (this.pipes.array[0] == null) return;
+            // Let's check the closest pipe, if there is any
+            if (this.pipes.array[0] != null) {
 
-            var nextPipe = this.pipes.array[0],
-                nextPipeUpper = nextPipe.children(".pipe_upper");
+                var nextPipe = this.pipes.array[0],
+                    nextPipeUpper = nextPipe.children(".pipe_upper");
 
-            var pipeTop = nextPipeUpper.height();
-            var pipeLeft = nextPipeUpper.offset().left - 2;
-            var pipeRight = pipeLeft + this.pipes.pipeWidth;
-            var pipeBottom = pipeTop + this.pipes.pipeHeight;
+                var pipeTop = nextPipeUpper.height();
+                var pipeLeft = nextPipeUpper.offset().left - 2;
+                var pipeRight = pipeLeft + this.pipes.pipeWidth;
+                var pipeBottom = pipeTop + this.pipes.pipeHeight;
 
-            // inside pipe
-            if (this.player.right > pipeLeft) {
-                if (this.player.top > pipeTop && this.player.top + this.player.height < pipeBottom) {
-                    // we passed
-                } else {
-                    // we touched the pipe
-                    this.endGame();
-                    return;
+                // inside pipe
+                if (this.player.right > pipeLeft) {
+                    if (this.player.top > pipeTop && this.player.top + this.player.height < pipeBottom) {
+                        // we passed
+                    } else {
+                        // we touched the pipe
+                        this.endGame();
+                        return;
+                    }
+                }
+
+                // have we passed the pipe?
+                if (this.player.left > pipeRight) {
+                    // yes, remove it
+                    this.pipes.array.splice(0, 1);
                 }
             }
 
-            // have we passed the pipe?
-            if (this.player.left > pipeRight) {
-                // yes, remove it
-                this.pipes.array.splice(0, 1);
+            // Let's check the closest saving point, if there is any
+            if (this.savingPoints.array[0] != null) {
+                var nextSavingPoint = this.savingPoints.array[0];
+                var pointLeft = nextSavingPoint.offset().left - 2;
+
+                // We hit the saving point
+                if (this.player.right > pointLeft) {
+
+                    this.savingPoints.array.splice(0, 1); //We do not already need to check this saving point
+                    this.savePointReached();
+                }
             }
+        }
+    }, {
+        key: "savePointReached",
+        value: function savePointReached() {
+            console.log("saving point reached");
+            //TODO
         }
     }, {
         key: "endGame",
@@ -194,6 +231,10 @@ var Game = function () {
             clearInterval(this.pipeLoopInterval);
             this.pipeLoopInterval = null;
 
+            // stop savingPoints loop
+            clearInterval(this.savingPointsLoopInterval);
+            this.savingPointsLoopInterval = null;
+
             // change mode
             this.mode = Mode.DEAD;
 
@@ -207,7 +248,7 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./Pipes":3,"./Player":4}],3:[function(require,module,exports){
+},{"./Pipes":3,"./Player":4,"./Savingpoints":5}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -310,5 +351,56 @@ var Player = function () {
 }();
 
 exports.default = Player;
+
+},{}],5:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Savingpoints = function () {
+    function Savingpoints(gameScene) {
+        _classCallCheck(this, Savingpoints);
+
+        this.array = [];
+        this.pointHeight = 180;
+        this.pointWidth = 20;
+
+        this.gameScene = gameScene;
+        this.gameSceneH = gameScene.height();
+    }
+
+    _createClass(Savingpoints, [{
+        key: "updateSavingPoints",
+        value: function updateSavingPoints() {
+
+            // remove pipes
+            $(".savingpoint").filter(function () {
+                return $(this).position().left <= -100;
+            }).remove();
+
+            // add a new pipe (top height + bottom height + pipeheight == gameSceneH) and put it in our tracker
+            var padding = 80,
+                constraint = this.gameSceneH - this.pointHeight - padding * 2,
+                // double padding (for top and bottom)
+            topHeight = Math.floor(Math.random() * constraint + padding),
+                // add lower padding
+            bottomHeight = this.gameSceneH - this.pointHeight - topHeight,
+                newPoint = $('<div class="savingpoint animated"> </div>');
+
+            this.gameScene.append(newPoint);
+            this.array.push(newPoint);
+        }
+    }]);
+
+    return Savingpoints;
+}();
+
+exports.default = Savingpoints;
 
 },{}]},{},[1]);
