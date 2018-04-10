@@ -34,7 +34,59 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-},{"./modules/Game":2}],2:[function(require,module,exports){
+},{"./modules/Cutting":2,"./modules/Game":3}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Cutting = function () {
+    // door_cut;
+    // pressButton;
+    // door_line;
+    // metal_sheet;
+
+    function Cutting() {
+        _classCallCheck(this, Cutting);
+
+        this.door_cut = $('.door-cut');
+        this.door_line = $('.door-line');
+        this.pressButton = $('#performPress');
+
+        this.init();
+    }
+
+    _createClass(Cutting, [{
+        key: 'init',
+        value: function init() {
+            this.door_line.on('click', function (e) {
+                $('.stage1__plech').addClass('hidden');
+                $('.door-line').removeClass('hidden');
+                $('.door-cut').removeClass('hidden');
+                $('#performPress').css("display", "inline-block");
+            });
+
+            $('#performPress').on('click', function (e) {
+                $('.door-cut').addClass('pressed');
+                console.log('waiting');
+                window.setTimeout(function () {
+                    // here goes change to next stage
+                }, 2000);
+            });
+        }
+    }]);
+
+    return Cutting;
+}();
+
+exports.default = Cutting;
+
+},{}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -351,7 +403,7 @@ var Game = function () {
 
 exports.default = Game;
 
-},{"./GameStageHandler":3,"./Pipes":4,"./Player":5,"./Savingpoints":7}],3:[function(require,module,exports){
+},{"./GameStageHandler":4,"./Pipes":5,"./Player":6,"./Savingpoints":8}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -506,7 +558,7 @@ var GameStageHandler = function () {
 
 exports.default = GameStageHandler;
 
-},{"./PressShop":6,"./WeldingShop":8}],4:[function(require,module,exports){
+},{"./PressShop":7,"./WeldingShop":9}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -557,7 +609,7 @@ var Pipes = function () {
 
 exports.default = Pipes;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -610,7 +662,7 @@ var Player = function () {
 
 exports.default = Player;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -639,11 +691,23 @@ var PressShop = function () {
         value: function start() {
             console.log("Entering press shop scene");
 
-            //TODO all functionality (Mato, pro tebe)
+            $('.door-line').on('click', function (e) {
+                $('.stage1__plech').addClass('hidden');
+                $('.door-line').removeClass('hidden');
+                $('.door-cut').removeClass('hidden');
+                $('#performPress').css("display", "inline-block");
+            });
 
+            $('#performPress').on('click', function (e) {
+                $('.door-cut').addClass('pressed');
+            });
+            var _this = this;
+            $('.door-cut').on('click', function (e) {
+                console.log(this);
+                _this.showSkoddyScene();
+            }).bind(this);
+            // here goes change to next stage
 
-            console.log("Leaving press shop scene");
-            this.showSkoddyScene(); // go back to main scene
         }
     }, {
         key: "showSkoddyScene",
@@ -660,7 +724,7 @@ var PressShop = function () {
 
 exports.default = PressShop;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -716,7 +780,7 @@ var Savingpoints = function () {
 
 exports.default = Savingpoints;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
